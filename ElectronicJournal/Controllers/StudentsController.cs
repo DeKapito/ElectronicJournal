@@ -21,7 +21,10 @@ namespace ElectronicJournal.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            var students = _context.Student.OrderBy(s => s.LastName);
+            return View(await students.ToListAsync());
+
+            //return View(await _context.Student.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -58,7 +61,7 @@ namespace ElectronicJournal.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(student);
-                
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
