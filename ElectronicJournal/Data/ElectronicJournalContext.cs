@@ -17,5 +17,9 @@ namespace ElectronicJournal.Models
         public DbSet<ElectronicJournal.Models.Student> Student { get; set; }
 
         public DbSet<ElectronicJournal.Models.Subject> Subject { get; set; }
+
+        public DbSet<ElectronicJournal.Models.Lesson> Lesson { get; set; }
+
+        public DbSet<ElectronicJournal.Models.Missing> Missing { get; set; }
     }
 }

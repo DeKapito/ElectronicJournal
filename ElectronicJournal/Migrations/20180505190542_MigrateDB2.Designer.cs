@@ -4,14 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace ElectronicJournal.Migrations
 {
     [DbContext(typeof(ElectronicJournalContext))]
-    partial class ElectronicJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20180505190542_MigrateDB2")]
+    partial class MigrateDB2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +30,7 @@ namespace ElectronicJournal.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("SubjectID");
+                    b.Property<int>("SubjectID");
 
                     b.Property<int>("Type");
 
@@ -88,9 +91,10 @@ namespace ElectronicJournal.Migrations
 
             modelBuilder.Entity("ElectronicJournal.Models.Lesson", b =>
                 {
-                    b.HasOne("ElectronicJournal.Models.Subject", "Subject")
+                    b.HasOne("ElectronicJournal.Models.Subject")
                         .WithMany("Lessons")
-                        .HasForeignKey("SubjectID");
+                        .HasForeignKey("SubjectID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ElectronicJournal.Models.Missing", b =>
