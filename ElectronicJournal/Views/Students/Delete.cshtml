@@ -1,24 +1,26 @@
 ﻿@model ElectronicJournal.Models.Student
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Видалення студента";
 }
 
-<h2>Delete</h2>
+<h2>Видалити</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Ви впевнені, що хочете видалити студента?</h3>
 <div>
-    <h4>Student</h4>
+    @*<h4>Студент</h4>*@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            <p>Ім'я</p>
+            @*@Html.DisplayNameFor(model => model.Name)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            <p>Прізвище</p>
+            @*@Html.DisplayNameFor(model => model.LastName)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.LastName)
@@ -27,7 +29,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Видалити" class="btn btn-default" /> |
+        <a asp-action="Index">Назад до списку</a>
     </form>
 </div>

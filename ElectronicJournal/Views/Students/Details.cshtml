@@ -4,20 +4,22 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Деталі</h2>
 
 <div>
-    <h4>Student</h4>
+    @*<h4>Student</h4>*@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            <p>Ім'я</p>
+            @*@Html.DisplayNameFor(model => model.Name)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            <p>Прізвище</p>
+            @*@Html.DisplayNameFor(model => model.LastName)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.LastName)
@@ -25,6 +27,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Редагувати</a> |
+    <a asp-action="Index">Назад до списку</a>
 </div>
