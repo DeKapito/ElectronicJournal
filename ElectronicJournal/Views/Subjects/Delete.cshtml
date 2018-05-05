@@ -1,0 +1,35 @@
+﻿@model ElectronicJournal.Models.Subject
+
+@{
+    ViewData["Title"] = "Видалити дисципліну";
+}
+
+<h2>@Html.DisplayFor(model => model.SubjectName)</h2>
+
+<h3>Ви впевнені, що хочете видалити дисципліну?</h3>
+<div>
+    @*<h4>Subject</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <p>Назва дисципліни</p>
+            @*@Html.DisplayNameFor(model => model.SubjectName)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubjectName)
+        </dd>
+        <dt>
+            <p>Викладач</p>
+            @*@Html.DisplayNameFor(model => model.Teacher)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Teacher)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="Видалити" class="btn btn-default" /> |
+        <a asp-action="Index">Назад до списку</a>
+    </form>
+</div>

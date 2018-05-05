@@ -1,0 +1,32 @@
+﻿@model ElectronicJournal.Models.Subject
+
+@{
+    ViewData["Title"] = "Деталі дисципліни";
+}
+
+<h2>Дисципліна "@Html.DisplayFor(Model => Model.SubjectName)"</h2>
+
+<div>
+    @*<h4>Subject</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <p>Назва дисципліни</p>
+            @*@Html.DisplayNameFor(model => model.SubjectName)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubjectName)
+        </dd>
+        <dt>
+            <p>Викладач</p>
+            @*@Html.DisplayNameFor(model => model.Teacher)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Teacher)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Редагувати</a> |
+    <a asp-action="Index">Назад до списку</a>
+</div>

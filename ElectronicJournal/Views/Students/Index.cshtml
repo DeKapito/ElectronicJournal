@@ -6,31 +6,38 @@
 
 <h2>Список групи</h2>
 
-<p>
-    <a asp-action="Create">Додати нового студента</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    <p>Ім'я</p>
-                    @*@Html.DisplayNameFor(model => model.Name)*@
-                </th>
-                <th>
-                    <p>Прізвище</p>
-                    @*@Html.DisplayNameFor(model => model.LastName)*@
-                </th>
+            <th>
+                <p>№</p>
+            </th>
+            <th>
+                <p>Прізвище</p>
+                @*@Html.DisplayNameFor(model => model.Name)*@
+            </th>
+            <th>
+                <p>Ім'я</p>
+                @*@Html.DisplayNameFor(model => model.LastName)*@
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
+@{
+    int i = 0;
+}
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                <p>@(++i)</p>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
@@ -41,3 +48,8 @@
 }
     </tbody>
 </table>
+
+<p>
+    <a asp-action="Create"><h4>Додати нового студента</h4></a>
+</p>
+
