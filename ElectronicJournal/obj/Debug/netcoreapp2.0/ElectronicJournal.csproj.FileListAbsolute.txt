@@ -1,0 +1,11 @@
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\bin\Debug\netcoreapp2.0\ElectronicJournal.deps.json
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\bin\Debug\netcoreapp2.0\ElectronicJournal.runtimeconfig.json
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\bin\Debug\netcoreapp2.0\ElectronicJournal.runtimeconfig.dev.json
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\bin\Debug\netcoreapp2.0\ElectronicJournal.dll
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\bin\Debug\netcoreapp2.0\ElectronicJournal.pdb
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\obj\Debug\netcoreapp2.0\ElectronicJournal.csprojResolveAssemblyReference.cache
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\obj\Debug\netcoreapp2.0\ElectronicJournal.csproj.CoreCompileInputs.cache
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\obj\Debug\netcoreapp2.0\ElectronicJournal.AssemblyInfoInputs.cache
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\obj\Debug\netcoreapp2.0\ElectronicJournal.AssemblyInfo.cs
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\obj\Debug\netcoreapp2.0\ElectronicJournal.dll
+D:\Навчання (New)\Курсова робота (2 курс)\ElectronicJournal\ElectronicJournal\obj\Debug\netcoreapp2.0\ElectronicJournal.pdb
