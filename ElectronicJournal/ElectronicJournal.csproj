@@ -6,6 +6,14 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180505202804_MigrateDB4.cs" />
+    <Compile Remove="Migrations\20180505212817_InitialCreate.cs" />
+    <Compile Remove="Migrations\20180505214020_AddLesson.cs" />
+    <Compile Remove="Migrations\20180505214606_InitialLesson.cs" />
+    <Compile Remove="Migrations\20180505215035_DropLesson.cs" />
+    <Compile Remove="Migrations\20180505220258_DropLesson.cs" />
+    <Compile Remove="Migrations\20180505220609_EditLesson.cs" />
+    <Compile Remove="Migrations\20180505220709_EditLesson.cs" />
+    <Compile Remove="Migrations\20180505220758_EditLesson.cs" />
   </ItemGroup>
 
   <ItemGroup>

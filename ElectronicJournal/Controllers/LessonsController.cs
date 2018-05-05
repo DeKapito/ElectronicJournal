@@ -21,7 +21,8 @@ namespace ElectronicJournal.Controllers
         // GET: Lessons
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Lesson.ToListAsync());
+            var electronicJournalContext = _context.Lesson.Include(l => l.Subject);
+            return View(await electronicJournalContext.ToListAsync());
         }
 
         // GET: Lessons/Details/5
@@ -33,6 +34,7 @@ namespace ElectronicJournal.Controllers
             }
 
             var lesson = await _context.Lesson
+                .Include(l => l.Subject)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (lesson == null)
             {
@@ -45,6 +47,7 @@ namespace ElectronicJournal.Controllers
         // GET: Lessons/Create
         public IActionResult Create()
         {
+            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID");
             return View();
         }
 
@@ -61,6 +64,7 @@ namespace ElectronicJournal.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID", lesson.SubjectID);
             return View(lesson);
         }
 
@@ -77,6 +81,7 @@ namespace ElectronicJournal.Controllers
             {
                 return NotFound();
             }
+            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID", lesson.SubjectID);
             return View(lesson);
         }
 
@@ -112,6 +117,7 @@ namespace ElectronicJournal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID", lesson.SubjectID);
             return View(lesson);
         }
 
@@ -124,6 +130,7 @@ namespace ElectronicJournal.Controllers
             }
 
             var lesson = await _context.Lesson
+                .Include(l => l.Subject)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (lesson == null)
             {
