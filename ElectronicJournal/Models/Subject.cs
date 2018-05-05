@@ -10,6 +10,7 @@ namespace ElectronicJournal.Models
         public int ID { get; set; }
         public string SubjectName { get; set; }
         public string Teacher { get; set; }
-        //public string Type { get; set; }    //Тип заняття (практична, лекція і т.д.)
+
+        public ICollection<Lesson> Lessons { get; set; }
     }
 }
