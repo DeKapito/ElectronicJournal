@@ -11,9 +11,10 @@ using System;
 namespace ElectronicJournal.Migrations
 {
     [DbContext(typeof(ElectronicJournalContext))]
-    partial class ElectronicJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20180506185347_EditMissing2")]
+    partial class EditMissing2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,9 +70,13 @@ namespace ElectronicJournal.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<int?>("LessonID");
+
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("LessonID");
 
                     b.ToTable("Student");
                 });
@@ -109,6 +114,13 @@ namespace ElectronicJournal.Migrations
                         .WithMany("Missings")
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ElectronicJournal.Models.Student", b =>
+                {
+                    b.HasOne("ElectronicJournal.Models.Lesson")
+                        .WithMany("Students")
+                        .HasForeignKey("LessonID");
                 });
 #pragma warning restore 612, 618
         }

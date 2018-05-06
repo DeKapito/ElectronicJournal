@@ -11,9 +11,10 @@ using System;
 namespace ElectronicJournal.Migrations
 {
     [DbContext(typeof(ElectronicJournalContext))]
-    partial class ElectronicJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20180506144720_AddStudentsToLesson")]
+    partial class AddStudentsToLesson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +48,7 @@ namespace ElectronicJournal.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("IsMissing");
+                    b.Property<bool>("IsMissing");
 
                     b.Property<int>("LessonID");
 
@@ -69,9 +70,13 @@ namespace ElectronicJournal.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<int?>("LessonID");
+
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("LessonID");
 
                     b.ToTable("Student");
                 });
@@ -100,15 +105,22 @@ namespace ElectronicJournal.Migrations
 
             modelBuilder.Entity("ElectronicJournal.Models.Missing", b =>
                 {
-                    b.HasOne("ElectronicJournal.Models.Lesson", "Lesson")
+                    b.HasOne("ElectronicJournal.Models.Lesson")
                         .WithMany("Missings")
                         .HasForeignKey("LessonID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ElectronicJournal.Models.Student", "Student")
+                    b.HasOne("ElectronicJournal.Models.Student")
                         .WithMany("Missings")
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ElectronicJournal.Models.Student", b =>
+                {
+                    b.HasOne("ElectronicJournal.Models.Lesson")
+                        .WithMany("Students")
+                        .HasForeignKey("LessonID");
                 });
 #pragma warning restore 612, 618
         }

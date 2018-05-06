@@ -1,14 +1,10 @@
-﻿@*@model ElectronicJournal.Models.Lesson*@
-@model ElectronicJournal.Models.Student
-
-
+﻿@model ElectronicJournal.Models.Lesson
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Додати пару";
 }
 
 <h2>Додати пару</h2>
 
-<h4>@*Lesson*@</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -38,58 +34,6 @@
                 <input asp-for="Date" type="date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
-            <h3>Відсутні на парі</h3>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            <p>Прізвище</p>
-                            @*@Html.DisplayNameFor(model => model.Subject.SubjectName)*@
-                        </th>
-                        <th>
-                            <p>1 година</p>
-                            @*@Html.DisplayNameFor(model => model.Classroom)*@
-                        </th>
-                        <th>
-                            <p>2 година</p>
-                            @*@Html.DisplayNameFor(model => model.Type)*@
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @*@foreach (var item in ViewBag.Students)
-                                {
-                                    <tr>
-                                        <th>
-                                            @Html.DisplayFor(modelItem => item.LastName)
-                                        </th>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Classroom)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Type)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NumberLesson)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Date)
-                                        </td>
-
-
-
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                                        </td>
-                                    </tr>
-                        }*@
-                </tbody>
-            </table>
-
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

@@ -52,6 +52,7 @@ namespace ElectronicJournal.Models
         public Subject Subject { get; set; }
 
         public ICollection<Missing> Missings { get; set; }
+        //public ICollection<Student> Students { get; set; }
 
         //ще додати предмет, н-ки, студенти
 

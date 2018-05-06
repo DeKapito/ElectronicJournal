@@ -49,9 +49,9 @@ namespace ElectronicJournal.Controllers
         public IActionResult Create()
         {
             ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "SubjectName");
-            //ViewBag.Students = _context.Student.ToListAsync();
-            var students = _context.Student.ToListAsync();
-            return View(students);
+            ViewBag.Students = _context.Student.OrderBy(m => m.LastName).ToList();
+            //var students = _context.Student.ToListAsync();
+            return View();// students);
         }
 
         // POST: Lessons/Create
@@ -59,10 +59,10 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID,NumberLesson")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID,NumberLesson,Missings")] Lesson lesson)
         {
             if (ModelState.IsValid)
-            {
+            { 
                 _context.Add(lesson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
