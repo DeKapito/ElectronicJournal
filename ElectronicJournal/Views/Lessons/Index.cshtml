@@ -12,30 +12,49 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Classroom)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Type)
-                </th>
+            <th>
+                <p>Назва заняття</p>
+                @*@Html.DisplayNameFor(model => model.Subject.SubjectName)*@
+            </th>
+            <th>
+                <p>Аудиторія</p>
+                @*@Html.DisplayNameFor(model => model.Classroom)*@
+            </th>
+            <th>
+                <p>Тип заняття</p>
+                @*@Html.DisplayNameFor(model => model.Type)*@
+            </th>
+            <th>
+                <p>Номер пари</p>
+            </th>
+            <th>
+                <p>Дата</p>
+                @*@Html.DisplayNameFor(model => model.Date)*@
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Classroom)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberLesson)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+
+
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |

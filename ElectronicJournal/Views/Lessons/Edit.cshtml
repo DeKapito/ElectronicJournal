@@ -13,25 +13,49 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
+            @*<div class="form-group">
+            <label asp-for="Date" class="control-label"></label>
+            <input asp-for="Date" class="form-control" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Classroom" class="control-label"></label>
+            <input asp-for="Classroom" class="form-control" />
+            <span asp-validation-for="Classroom" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Type" class="control-label"></label>
+            <select asp-for="Type" class="form-control"></select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SubjectID" class="control-label"></label>
+            <select asp-for="SubjectID" class="form-control" asp-items="ViewBag.SubjectID"></select>
+            <span asp-validation-for="SubjectID" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <label asp-for="SubjectID" class="control-label">Дисципліна</label>
+                <select asp-for="SubjectID" class="form-control" asp-items="ViewBag.SubjectID"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Classroom" class="control-label"></label>
+                <label asp-for="Classroom" class="control-label">Аудиторія</label>
                 <input asp-for="Classroom" class="form-control" />
                 <span asp-validation-for="Classroom" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" class="form-control"></select>
+                <label asp-for="Type" class="control-label">Тип заняття</label>
+                <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<TypeLesson>()"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SubjectID" class="control-label"></label>
-                <select asp-for="SubjectID" class="form-control" asp-items="ViewBag.SubjectID"></select>
-                <span asp-validation-for="SubjectID" class="text-danger"></span>
+                <label asp-for="NumberLesson" class="control-label">Номер пари</label>
+                <select asp-for="NumberLesson" class="form-control" asp-items="Html.GetEnumSelectList<NumberLesson>()"></select>
+                <span asp-validation-for="NumberLesson" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Дата</label>
+                <input asp-for="Date" type="datetime" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

@@ -21,7 +21,8 @@ namespace ElectronicJournal.Controllers
         // GET: Lessons
         public async Task<IActionResult> Index()
         {
-            var electronicJournalContext = _context.Lesson.Include(l => l.Subject);
+            var electronicJournalContext = _context.Lesson.Include(l => l.Subject).OrderBy(l => l.Date);
+            //electronicJournalContext = electronicJournalContext.OrderBy(l => l.Date);
             return View(await electronicJournalContext.ToListAsync());
         }
 
@@ -47,7 +48,7 @@ namespace ElectronicJournal.Controllers
         // GET: Lessons/Create
         public IActionResult Create()
         {
-            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID");
+            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "SubjectName");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID,NumberLesson")] Lesson lesson)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +82,7 @@ namespace ElectronicJournal.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID", lesson.SubjectID);
+            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "SubjectName", lesson.SubjectID);
             return View(lesson);
         }
 
@@ -90,7 +91,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Classroom,Type,SubjectID")] Lesson lesson)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Classroom,Type,SubjectID, NumberLesson")] Lesson lesson)
         {
             if (id != lesson.ID)
             {

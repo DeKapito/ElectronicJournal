@@ -16,6 +16,26 @@ namespace ElectronicJournal.Models
         laboratory
     }
 
+    public enum NumberLesson
+    {
+        [Display(Name = "1")]
+        first = 1,
+        [Display(Name = "2")]
+        second,
+        [Display(Name = "3")]
+        third,
+        [Display(Name = "4")]
+        fourth,
+        [Display(Name = "5")]
+        fifth,
+        [Display(Name = "6")]
+        sixth,
+        [Display(Name = "7")]
+        seventh,
+        [Display(Name = "8")]
+        eighth
+    }
+
     public class Lesson
     {
         public int ID { get; set; }
@@ -26,6 +46,7 @@ namespace ElectronicJournal.Models
 
         public string Classroom { get; set; }
         public TypeLesson Type { get; set; }
+        public NumberLesson NumberLesson { get; set; }
 
         public int SubjectID { get; set; }
         public Subject Subject { get; set; }
