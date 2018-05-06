@@ -21,5 +21,7 @@ namespace ElectronicJournal.Models
         public DbSet<ElectronicJournal.Models.Missing> Missing { get; set; }
 
         public DbSet<ElectronicJournal.Models.Lesson> Lesson { get; set; }
+
+        public DbSet<ElectronicJournal.Models.Week> Week { get; set; }
     }
 }
