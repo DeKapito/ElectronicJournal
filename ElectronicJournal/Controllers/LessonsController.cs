@@ -49,7 +49,9 @@ namespace ElectronicJournal.Controllers
         public IActionResult Create()
         {
             ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "SubjectName");
-            return View();
+            //ViewBag.Students = _context.Student.ToListAsync();
+            var students = _context.Student.ToListAsync();
+            return View(students);
         }
 
         // POST: Lessons/Create
