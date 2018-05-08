@@ -124,6 +124,65 @@ namespace ElectronicJournal.Controllers
             return View(lesson);
         }
 
+        // GET: Missings1/Create
+        public async Task<IActionResult> AddMissings(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lesson = await _context.Lesson.SingleOrDefaultAsync(m => m.ID == id);
+
+            if (lesson == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.lesson = lesson;
+            ViewBag.students = await _context.Student.OrderBy(m => m.LastName).ToListAsync();
+
+            List<Missing> missings = new List<Missing>();
+            foreach (Student item in ViewBag.students)
+            {
+                Missing temp = new Missing();
+                missings.Add(temp);
+            }
+
+            return View(missings);
+        }
+
+        //POST: Missings1/Create
+        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMissings(List<Missing> missings, Lesson lesson)   //public async Task<IActionResult> AddMissings([Bind("ID,StudentID,IsMissing,LessonID")] Missing missing)
+        {
+            if (ModelState.IsValid)
+            {
+                var students = await _context.Student.OrderBy(m => m.LastName).ToListAsync();
+
+                var missingsToDelete = _context.Missing.Where(m => m.LessonID == lesson.ID);
+                foreach(var item in missingsToDelete)
+                {
+                    _context.Remove(item);
+                }
+
+                for (int i = 0; i < missings.Count; i++)
+                {
+                    missings[i].LessonID = lesson.ID;
+                    missings[i].StudentID = students[i].ID;
+                    _context.Add(missings[i]);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
         // GET: Lessons/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
