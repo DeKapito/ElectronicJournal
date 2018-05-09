@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ElectronicJournal.Models.Lesson>
+﻿@model List<IGrouping<DateTime, Lesson>>
 
 @{
     ViewData["Title"] = "Редагування пар";
@@ -28,32 +28,46 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <th>
-                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-            </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.Classroom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberLesson)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
+        @{ 
+            var culture = new System.Globalization.CultureInfo("uk-UA");
+        }
+        @foreach (var group in Model)
+    {
+            <tr>
+                <th>
+                    <h4>@culture.DateTimeFormat.GetDayName(group.Key.DayOfWeek)</h4>
+                </th>
+            </tr>
+        foreach (var item in group)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classroom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberLesson)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
-                <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
-            </td>
-        </tr>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
+                    <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
+                </td>
+            </tr>
+
     }
+
+}
     </tbody>
 </table>
 

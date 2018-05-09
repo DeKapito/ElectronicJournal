@@ -21,7 +21,15 @@ namespace ElectronicJournal.Controllers
         // GET: Lessons
         public async Task<IActionResult> Index()
         {
-            var electronicJournalContext = _context.Lesson.Include(l => l.Subject).OrderBy(l => l.Date);
+            var electronicJournalContext = _context.Lesson.Include(l => l.Subject).OrderBy(l => l.Date).GroupBy(l => l.Date);
+            
+            foreach(var group in electronicJournalContext)
+            {             
+                foreach(var item in group)
+                { 
+                }
+            }
+          
 
             return View(await electronicJournalContext.ToListAsync());
         }
