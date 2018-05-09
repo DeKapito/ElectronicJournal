@@ -11,17 +11,16 @@
         <tr>
                 <th>
                     <p>Назва дисципліни</p>
-                    @*@Html.DisplayNameFor(model => model.SubjectName)*@
                 </th>
                 <th>
                     <p>Викладач</p>
-                    @*@Html.DisplayNameFor(model => model.Teacher)*@
                 </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.SubjectName)
@@ -35,7 +34,7 @@
                 <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
 

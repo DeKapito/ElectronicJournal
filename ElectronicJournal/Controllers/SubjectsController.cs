@@ -22,9 +22,8 @@ namespace ElectronicJournal.Controllers
         public async Task<IActionResult> Index()
         {
             var subjects = _context.Subject.OrderBy(s => s.SubjectName);
-            return View(await subjects.ToListAsync());
 
-            //return View(await _context.Subject.ToListAsync());
+            return View(await subjects.ToListAsync());
         }
 
         // GET: Subjects/Details/5

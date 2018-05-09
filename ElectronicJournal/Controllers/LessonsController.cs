@@ -22,7 +22,7 @@ namespace ElectronicJournal.Controllers
         public async Task<IActionResult> Index()
         {
             var electronicJournalContext = _context.Lesson.Include(l => l.Subject).OrderBy(l => l.Date);
-            //electronicJournalContext = electronicJournalContext.OrderBy(l => l.Date);
+
             return View(await electronicJournalContext.ToListAsync());
         }
 
@@ -50,8 +50,8 @@ namespace ElectronicJournal.Controllers
         {
             ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "SubjectName");
             ViewBag.Students = _context.Student.OrderBy(m => m.LastName).ToList();
-            //var students = _context.Student.ToListAsync();
-            return View();// students);
+
+            return View();
         }
 
         // POST: Lessons/Create
@@ -67,6 +67,7 @@ namespace ElectronicJournal.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID", lesson.SubjectID);
             return View(lesson);
         }
@@ -149,6 +150,8 @@ namespace ElectronicJournal.Controllers
                 missings.Add(temp);
             }
 
+            //ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID", lesson.SubjectID);
+            //ViewData["StudentID"] = new SelectList(_context.Student, "ID", "ID");
             return View(missings);
         }
 

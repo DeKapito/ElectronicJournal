@@ -22,9 +22,8 @@ namespace ElectronicJournal.Controllers
         public async Task<IActionResult> Index()
         {
             var students = _context.Student.OrderBy(s => s.LastName);
-            return View(await students.ToListAsync());
 
-            //return View(await _context.Student.ToListAsync());
+            return View(await students.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -56,7 +55,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,LastName")] Student student)
+        public async Task<IActionResult> Create([Bind("ID,Name,LastName, Father")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +88,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,LastName")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,LastName,Father")] Student student)
         {
             if (id != student.ID)
             {

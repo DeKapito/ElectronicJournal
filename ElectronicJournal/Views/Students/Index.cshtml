@@ -15,11 +15,12 @@
             </th>
             <th>
                 <p>Прізвище</p>
-                @*@Html.DisplayNameFor(model => model.Name)*@
             </th>
             <th>
                 <p>Ім'я</p>
-                @*@Html.DisplayNameFor(model => model.LastName)*@
+            </th>
+            <th>
+                <p>По-батькові</p>
             </th>
             <th></th>
         </tr>
@@ -38,6 +39,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Father)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |

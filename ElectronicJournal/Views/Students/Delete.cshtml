@@ -8,22 +8,25 @@
 
 <h3>Ви впевнені, що хочете видалити студента?</h3>
 <div>
-    @*<h4>Студент</h4>*@
     <hr />
     <dl class="dl-horizontal">
         <dt>
             <p>Прізвище</p>
-            @*@Html.DisplayNameFor(model => model.Name)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt>
             <p>Ім'я</p>
-            @*@Html.DisplayNameFor(model => model.LastName)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            <p>По-батькові</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Father)
         </dd>
     </dl>
     

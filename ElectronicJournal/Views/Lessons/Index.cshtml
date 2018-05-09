@@ -1,41 +1,34 @@
 ﻿@model IEnumerable<ElectronicJournal.Models.Lesson>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Редагування пар";
 }
 
-<h2>Index</h2>
+<h2>Редагування пар</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 <p>Назва заняття</p>
-                @*@Html.DisplayNameFor(model => model.Subject.SubjectName)*@
             </th>
             <th>
                 <p>Аудиторія</p>
-                @*@Html.DisplayNameFor(model => model.Classroom)*@
             </th>
             <th>
                 <p>Тип заняття</p>
-                @*@Html.DisplayNameFor(model => model.Type)*@
             </th>
             <th>
                 <p>Номер пари</p>
             </th>
             <th>
                 <p>Дата</p>
-                @*@Html.DisplayNameFor(model => model.Date)*@
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <th>
                 @Html.DisplayFor(modelItem => item.Subject.SubjectName)
@@ -53,15 +46,17 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
 
-
-
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Редагувати заняття</a> |
-                <a asp-action="AddMissings" asp-route-id="@item.ID">Позначити відсутніх</a> |
+                <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
+                <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+
+<p>
+    <a asp-action="Create"><h4>Додати нову пару</h4></a>
+</p>
