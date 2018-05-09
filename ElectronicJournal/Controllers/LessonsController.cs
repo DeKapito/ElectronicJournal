@@ -41,6 +41,10 @@ namespace ElectronicJournal.Controllers
             {
                 return NotFound();
             }
+            ViewBag.students = await _context.Student.OrderBy(m => m.LastName).ToListAsync();
+            ViewBag.missings = await _context.Missing.Where(l => l.LessonID == id).OrderBy(l => l.Student.LastName).ToListAsync();
+            var missings = await _context.Missing.Where(l => l.LessonID == id).OrderBy(l => l.Student.LastName).ToListAsync();
+            
 
             return View(lesson);
         }

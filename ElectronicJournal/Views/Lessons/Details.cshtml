@@ -4,35 +4,44 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Деталі</h2>
 
 <div>
-    <h4>Lesson</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Subject.SubjectName)
+            <p>Дисципліна</p>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Subject.SubjectName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Classroom)
+            <p>Аудиторія</p>
+            @*@Html.DisplayNameFor(model => model.Classroom)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Classroom)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Type)
+            <p>Тип заняття</p>
+            @*@Html.DisplayNameFor(model => model.Type)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            <p>Номер пари</p>
+            @*@Html.DisplayNameFor(model => model.NumberLesson)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberLesson)
+        </dd>
+        <dt>
+            <p>Дата</p>
+            @*@Html.DisplayNameFor(model => model.Date)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
         </dd>
     </dl>
 </div>
@@ -47,54 +56,28 @@
                 @*@Html.DisplayNameFor(model => model.Subject.SubjectName)*@
             </th>
             <th>
-                <p>1 година</p>
+                <p>Присутність</p>
                 @*@Html.DisplayNameFor(model => model.Classroom)*@
             </th>
-            <th>
-                <p>2 година</p>
-                @*@Html.DisplayNameFor(model => model.Type)*@
-            </th>
-            @*<th></th>*@
         </tr>
     </thead>
     <tbody>
-        @foreach (Student item in Model.Students.ToList())
+        @for (int i = 0; i < ViewBag.students.Count; i++)
         {
             <tr>
                 <th>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                    @*<p>@(item.LastName + " " + item.Name[0] + ".")</p>*@
+                    <p>@ViewBag.students[i].LastName @ViewBag.students[i].Name[0]. @ViewBag.students[i].Father[0]. </p>
                 </th>
                 <td>
-                    @*<div class="form-group">
-                        <label asp-for="numberlesson" class="control-label"></label>
-                        <select asp-for="missings" class="form-control" asp-items="html.getenumselectlist<ismissing>()"></select>
-                        <span asp-validation-for="missings" class="text-danger"></span>
-                    </div>*@
+                    @Html.DisplayFor(m => m.Missings.OrderBy(l => l.Student.LastName).ToList()[i].IsMissing)
                 </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumberLesson)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>*@
-
-
-
-                @*<td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                    </td>*@
             </tr>
         }
     </tbody>
 </table>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Редагувати пару</a> |
+    <a asp-action="AddMissings" asp-route-id="@Model.ID">Редагувати відсутніх</a> |
+    <a asp-action="Index">Назад до списку</a>
 </div>
