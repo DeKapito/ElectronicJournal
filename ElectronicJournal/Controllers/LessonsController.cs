@@ -23,14 +23,6 @@ namespace ElectronicJournal.Controllers
         {
             var electronicJournalContext = _context.Lesson.Include(l => l.Subject).OrderBy(l => l.Date).GroupBy(l => l.Date);
             
-            foreach(var group in electronicJournalContext)
-            {             
-                foreach(var item in group)
-                { 
-                }
-            }
-          
-
             return View(await electronicJournalContext.ToListAsync());
         }
 
@@ -52,7 +44,12 @@ namespace ElectronicJournal.Controllers
             ViewBag.students = await _context.Student.OrderBy(m => m.LastName).ToListAsync();
             ViewBag.missings = await _context.Missing.Where(l => l.LessonID == id).OrderBy(l => l.Student.LastName).ToListAsync();
             var missings = await _context.Missing.Where(l => l.LessonID == id).OrderBy(l => l.Student.LastName).ToListAsync();
-            
+
+            //Якщо н-ки не виставлені
+            if (missings.Count == 0)
+            {
+                return NotFound();
+            }
 
             return View(lesson);
         }
@@ -76,6 +73,21 @@ namespace ElectronicJournal.Controllers
             if (ModelState.IsValid)
             { 
                 _context.Add(lesson);
+
+                //////////////////////////////Протестити цей блок коду
+                var students = _context.Student.OrderBy(m => m.LastName).ToList();
+
+                List<Missing> missings = new List<Missing>(students.Count);
+                for (int i = 0; i < students.Count; i++)
+                {
+                    missings.Add(new Missing());
+                    missings[i].LessonID = lesson.ID;
+                    missings[i].StudentID = students[i].ID;
+                    missings[i].IsMissing = 0;
+                    _context.Add(missings[i]);
+                }
+                ///////////////////////////////////////////////////////////
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
