@@ -52,6 +52,7 @@ namespace ElectronicJournal.Controllers
 
             var week = weeks[numberOfWeek - 1];
             ViewBag.numberOfWeek = numberOfWeek;
+            ViewBag.numWeeks = weeks.Count;
 
             return View(week.ToList());
         }

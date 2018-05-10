@@ -3,12 +3,39 @@
 @{
     ViewData["Title"] = "Редагування пар";
 }
+<style>
+    .heads {
+        color: royalblue
+    }
+</style>
 
-<h2>Редагування пар</h2>
+<h1>Редагування пар</h1>
 
 <table class="table">
-    <thead>
-        <tr>
+    <tbody>
+        @{ 
+            var culture = new System.Globalization.CultureInfo("uk-UA");
+            int i = 0;
+        }
+        @foreach(var week in Model.GroupBy(m => m.Key.Date.StartOfWeek(DayOfWeek.Monday)))
+        {
+            <tr>
+                <th></th><th></th>
+                <th>
+                    <br/><h2>Тиждень @(++i)</h2>
+                </th>
+                <th></th><th></th><th></th>
+            </tr>
+
+            @foreach (var group in week)
+            {
+                <tr>
+                <th>
+                    <h2 class="heads">@culture.DateTimeFormat.GetDayName(group.Key.DayOfWeek)</h2>
+                </th>
+                    <th></th><th></th><th></th><th></th><th></th>
+                </tr>
+                <tr>
             <th>
                 <p>Назва заняття</p>
             </th>
@@ -26,33 +53,13 @@
             </th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-        @{ 
-            var culture = new System.Globalization.CultureInfo("uk-UA");
-            int i = 0;
-        }
-        @foreach(var week in Model.GroupBy(m => m.Key.Date.StartOfWeek(DayOfWeek.Monday)))
-        {
-            <tr>
-                <th>
-                    <h4>Тиждень @(++i)</h4>
-                </th>
-            </tr>
-            @foreach (var group in week)
-            {
-                <tr>
-                <th>
-                    <h5>@culture.DateTimeFormat.GetDayName(group.Key.DayOfWeek)</h5>
-                </th>
-                </tr>
 
                 foreach (var item in group)
                 {
                 <tr>
-                    <th>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-                    </th>
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Classroom)
                     </td>

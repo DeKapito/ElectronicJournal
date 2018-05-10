@@ -4,48 +4,59 @@
     ViewData["Title"] = "Редагування пар";
 }
 
-<h2>Редагування пар</h2>
+<style>
+    .heads {
+        color: royalblue
+    }
+    .formButtons {
+        position: relative;
+    }
+</style>
 
-<h3>Тиждень @ViewBag.numberOfWeek</h3>
+<h1>Тиждень @ViewBag.numberOfWeek</h1>
+
+@*<h3>Тиждень @ViewBag.numberOfWeek</h3>*@
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                <p>Назва заняття</p>
-            </th>
-            <th>
-                <p>Аудиторія</p>
-            </th>
-            <th>
-                <p>Тип заняття</p>
-            </th>
-            <th>
-                <p>Номер пари</p>
-            </th>
-            <th>
-                <p>Дата</p>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
     <tbody>
-        @{ 
+        @{
             var culture = new System.Globalization.CultureInfo("uk-UA");
-            int i = 0;
         }
-        @foreach(var day in Model.GroupBy(m => m.Date))
+        @foreach (var day in Model.GroupBy(m => m.Date))
         {
             <tr>
                 <th>
-                    <h4>@culture.DateTimeFormat.GetDayName(day.Key.DayOfWeek)</h4>
+                    <h2 class="heads">@culture.DateTimeFormat.GetDayName(day.Key.DayOfWeek)</h2>
                 </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>
+                    <p>Назва заняття</p>
+                </th>
+                <th>
+                    <p>Аудиторія</p>
+                </th>
+                <th>
+                    <p>Тип заняття</p>
+                </th>
+                <th>
+                    <p>Номер пари</p>
+                </th>
+                <th>
+                    <p>Дата</p>
+                </th>
+                <th></th>
             </tr>
             @foreach (var item in day)
             {
                 <tr>
-                    <th>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-                    </th>
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Classroom)
                     </td>
@@ -67,10 +78,31 @@
                     </td>
                 </tr>
             }
-         }
+        }
     </tbody>
 </table>
 
-<p>
-    <a asp-action="Create"><h4>Додати нову пару</h4></a>
-</p>
+<a asp-action="Create"><h4>Додати нову пару</h4></a>
+
+<br />
+<div class="formButtons" align="center">
+    <h5>Перейти до тижня</h5>
+
+    <form asp-action="IndexPagging">
+        @if (ViewBag.numberOfWeek > 1)
+        {
+            <button class="btn btn-default" asp-route-id="@(ViewBag.numberOfWeek - 1)">Попередній</button>
+        }
+
+
+        @for (int i = 0; i < ViewBag.numWeeks; i++)
+        {
+            <button class="btn btn-default" asp-route-id="@(i + 1)">@(i + 1)</button>
+        }
+
+        @if (ViewBag.numberOfWeek < ViewBag.numWeeks)
+        {
+            <button class="btn btn-default" asp-route-id="@(ViewBag.numberOfWeek + 1)">Наступний</button>
+        }
+    </form>
+</div>
