@@ -23,12 +23,16 @@
         <tbody>
             @for (int i = 0; i < Model.Count; i++)
             {
+                
                 <tr>
                     <td width="200px">
                         <p>@ViewBag.students[i].LastName @ViewBag.students[i].Name[0]. </p>
                     </td>
+                    
                     <td>
-                        @Html.DropDownListFor(m => m[i].IsMissing, Html.GetEnumSelectList<IsMissing>())
+                            @Html.DropDownListFor(m => m[i].IsMissing, 
+                                                    Html.GetEnumSelectList<IsMissing>(), 
+                                                    new { @class="form-control", @style= "width:200px;" })
                     </td>
                 </tr>
             }
@@ -39,7 +43,7 @@
             }
         </tbody>
     </table>
-    <input type="submit" value="Підтвердити" />
+    <input class="btn btn-default" type="submit" value="Підтвердити" />
 </form>
 
 
