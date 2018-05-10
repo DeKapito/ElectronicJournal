@@ -1,4 +1,4 @@
-﻿@model List<IGrouping<DateTime, Lesson>>
+﻿@model List<Lesson>
 
 @{
     ViewData["Title"] = "Редагування пар";
@@ -6,6 +6,7 @@
 
 <h2>Редагування пар</h2>
 
+<h3>Тиждень @ViewBag.numberOfWeek</h3>
 <table class="table">
     <thead>
         <tr>
@@ -32,23 +33,15 @@
             var culture = new System.Globalization.CultureInfo("uk-UA");
             int i = 0;
         }
-        @foreach(var week in Model.GroupBy(m => m.Key.Date.StartOfWeek(DayOfWeek.Monday)))
+        @foreach(var day in Model.GroupBy(m => m.Date))
         {
             <tr>
                 <th>
-                    <h4>Тиждень @(++i)</h4>
+                    <h4>@culture.DateTimeFormat.GetDayName(day.Key.DayOfWeek)</h4>
                 </th>
             </tr>
-            @foreach (var group in week)
+            @foreach (var item in day)
             {
-                <tr>
-                <th>
-                    <h5>@culture.DateTimeFormat.GetDayName(group.Key.DayOfWeek)</h5>
-                </th>
-                </tr>
-
-                foreach (var item in group)
-                {
                 <tr>
                     <th>
                         @Html.DisplayFor(modelItem => item.Subject.SubjectName)
@@ -73,15 +66,10 @@
                         <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
                     </td>
                 </tr>
-                }
             }
          }
     </tbody>
 </table>
-
-<p>
-    <a asp-action="IndexPagging" asp-route-id="1"><h4>Вивести по сторінках</h4></a>
-</p>
 
 <p>
     <a asp-action="Create"><h4>Додати нову пару</h4></a>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ElectronicJournal.Models;
+using System.Globalization;
 
 namespace ElectronicJournal.Controllers
 {
@@ -21,9 +22,38 @@ namespace ElectronicJournal.Controllers
         // GET: Lessons
         public async Task<IActionResult> Index()
         {
-            var electronicJournalContext = _context.Lesson.Include(l => l.Subject).OrderBy(l => l.Date).GroupBy(l => l.Date);
-            
+            var electronicJournalContext = _context.Lesson.Include(l => l.Subject)
+                                                            .OrderBy(l => l.Date)
+                                                            .GroupBy(l => l.Date);                                                    
+
+            //перевірити різницю між async
             return View(await electronicJournalContext.ToListAsync());
+        }
+
+        //GET: Lessons
+        public async Task<IActionResult> IndexPagging(int? id = 1)
+        {
+            if (id == null || id <= 0)
+            {
+                return NotFound();
+            }
+
+            int numberOfWeek = (int)id;
+
+            var weeks = _context.Lesson.Include(l => l.Subject)
+                                                            .OrderBy(l => l.Date)
+                                                            //.GroupBy(l => l.Date);
+                                                            .GroupBy(l => l.Date.StartOfWeek(DayOfWeek.Monday)).ToList();
+
+            if(numberOfWeek > weeks.Count)
+            {
+                return NotFound();
+            }
+
+            var week = weeks[numberOfWeek - 1];
+            ViewBag.numberOfWeek = numberOfWeek;
+
+            return View(week.ToList());
         }
 
         // GET: Lessons/Details/5
