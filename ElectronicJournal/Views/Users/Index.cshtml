@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ElectronicJournal.Models.User>
+@{
+    ViewData["Title"] = "Користувачі";
+}
+
+<h2>Список користувачів</h2><br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Прізвище</th>
+            <th>Ім'я</th>
+            <th>Група</th>
+            <th>e-mail</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelUser => user.LastName)</td>
+                <td>@Html.DisplayFor(modelUser => user.Name)</td>
+                <td>@Html.DisplayFor(modelUser => user.Group)</td>
+                <td>@Html.DisplayFor(modelUser => user.Email)</td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id">
+                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Редагувати</a>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Видалити
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Create">Додати користувача</a>
+</p>

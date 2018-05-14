@@ -31,6 +31,7 @@ namespace ElectronicJournal.Controllers
         }
 
         //GET: Lessons
+        //public async IActionResult IndexPagging(int? id = 1)
         public async Task<IActionResult> IndexPagging(int? id = 1)
         {
             if (id == null || id <= 0)

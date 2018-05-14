@@ -34,6 +34,29 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">Про нас</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакти</a></li>
                     <li><a asp-area="" asp-controller="Students" asp-action="Index">Список групи</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a>@User.Identity.Name</a>
+                        </li>
+                        <li>
+                            <a>
+                                <form asp-controller="Account" asp-action="LogOff">
+                                    <input class="btn btn-default" type="submit" value="Вийти" />
+                                </form>
+                            </a>
+                            @*<a asp-controller="Account" asp-action="LogOff">Вийти</a>*@
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Account" asp-action="Login">Вхід</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Account" asp-action="Register">Реєстрація</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

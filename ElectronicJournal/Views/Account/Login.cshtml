@@ -1,0 +1,34 @@
+﻿@model ElectronicJournal.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Вхід";
+}
+
+<h2>Вхід</h2>
+
+<form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <br />
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <br />
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <br />
+        <input asp-for="RememberMe" />
+        <label asp-for="RememberMe">Запам'ятати</label>
+        <br /><br />
+
+    </div>
+    <div>
+        <input class="btn btn-default" type="submit" value="Ввійти" />
+    </div>
+</form>
+
+
