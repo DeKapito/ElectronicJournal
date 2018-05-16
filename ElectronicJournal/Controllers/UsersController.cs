@@ -11,11 +11,13 @@ namespace ElectronicJournal.Controllers
 {
     public class UsersController : Controller
     {
-        UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(UserManager<User> userManager)
+        public UsersController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -43,6 +45,9 @@ namespace ElectronicJournal.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
+                await _userManager.AddToRoleAsync(user, "Student");
+                result = await _userManager.UpdateAsync(user);
+
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
@@ -65,17 +70,24 @@ namespace ElectronicJournal.Controllers
             {
                 return NotFound();
             }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allRoles = _roleManager.Roles.ToList();
+
             EditUserViewModel model = new EditUserViewModel {
                                                 Id = user.Id,
                                                 Name = user.Name,
                                                 LastName = user.LastName,
                                                 Group = user.Group,
-                                                Email = user.Email };
+                                                Email = user.Email,
+                                                UserRoles = userRoles,
+                                                AllRoles = allRoles};
+
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUserViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model, List<string> roles)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +98,17 @@ namespace ElectronicJournal.Controllers
                     user.LastName = model.LastName;
                     user.Group = model.Group;
                     user.Email = model.Email;
+
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    var allRoles = _roleManager.Roles.ToList();
+
+                    //Список ролей, які додали
+                    var addedRoles = roles.Except(userRoles);
+                    //Ролі, які видалили
+                    var removedRoles = userRoles.Except(roles);
+
+                    await _userManager.AddToRolesAsync(user, addedRoles);
+                    await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)

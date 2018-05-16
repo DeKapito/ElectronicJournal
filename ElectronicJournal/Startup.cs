@@ -28,8 +28,8 @@ namespace ElectronicJournal
                     options.UseSqlServer(Configuration.GetConnectionString("ElectronicJournalContext")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ElectronicJournalContext>();
-                //.AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ElectronicJournalContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc();
         }
