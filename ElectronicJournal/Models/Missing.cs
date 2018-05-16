@@ -24,7 +24,6 @@ namespace ElectronicJournal.Models
         public int StudentID { get; set; }
         public Student Student { get; set; }
 
-        //public ICollection<Student> Students { get; set; }
         public IsMissing IsMissing { get; set; }
 
         public int LessonID { get; set; }

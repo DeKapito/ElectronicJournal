@@ -161,70 +161,85 @@ namespace ElectronicJournal.Controllers
             }
         }
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public IActionResult ForgotPassword()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ForgotPassword(LoginViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userManager.FindByNameAsync(model.Email);
-        //        if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-        //        {
-        //            return View("ForgotPasswordConfirmation");
-        //        }
+        [HttpGet]
+        public IActionResult PasswordNotification()
+        {
+            return View();
+        }
 
-        //        var codeForConfirm = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //        var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = codeForConfirm }, protocol: HttpContext.Request.Scheme);
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(string Email)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    //ModelState.AddModelError(string.Empty, "Такий e-mail не зареєстровано");
+                    return RedirectToAction("ForgotPassword");  //////////////////////////
+                }
 
-        //        EmailService emailService = new EmailService();
-        //        await emailService.SendEmailAsync(model.Email, "Підтвердіть свій аккаунт",
-        //                                            "Для скидання паролю перейдіть за посиланням: <a href='" + callbackUrl + "'>link</a>. "
-        //                                            + "На ваш E-mail прийде посилання для скидання паролю.");
+                var codeForConfirm = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //var callbackUrl = Url.ResetPasswordCallbackLink()
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = codeForConfirm }, protocol: HttpContext.Request.Scheme);
 
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    return View(model);
-        //}
+                EmailService emailService = new EmailService();
+                await emailService.SendEmailAsync(Email, "Зміна паролю",
+                                                    "Для скидання паролю перейдіть за посиланням: <a href='" + callbackUrl + "'>link</a>.");
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public IActionResult ResetPassword(string code = null)
-        //{
-        //    return code == null ? View("Error") : View();
-        //}
+                return RedirectToAction("PasswordNotification");
+            }
+            return View();
+        }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ResetPassword(string userId, string code)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null)
+            {
+                throw new ApplicationException("A code must be supplied for password reset.");
+            }
+            var model = new ResetPasswordViewModel { Code = code };
+            return View(model);
+        }
 
-        //    var user = await _userManager.FindByNameAsync(model.Email);
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
 
-        //    if (user == null)
-        //    {
-        //        return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
-        //    }
-
-        //    var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
-        //    if (result.Succeeded)
-        //    {
-        //        return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
-        //    }
-        //    AddErrors(result);
-        //    return View();
-        //}
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+            return NotFound();
+        }
     }
 }
