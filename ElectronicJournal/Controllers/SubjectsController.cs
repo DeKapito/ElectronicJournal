@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ElectronicJournal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicJournal.Controllers
 {
@@ -19,6 +20,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var subjects = _context.Subject.OrderBy(s => s.SubjectName);
@@ -27,6 +29,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,6 +48,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects/Create
+        [Authorize(Roles = "Admin, GroupLeader")]
         public IActionResult Create()
         {
             return View();
@@ -55,6 +59,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Create([Bind("ID,SubjectName,Teacher")] Subject subject)
         {
             if (ModelState.IsValid)
@@ -67,6 +72,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects/Edit/5
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,6 +93,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,SubjectName,Teacher")] Subject subject)
         {
             if (id != subject.ID)
@@ -118,6 +125,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects/Delete/5
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +146,7 @@ namespace ElectronicJournal.Controllers
         // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var subject = await _context.Subject.SingleOrDefaultAsync(m => m.ID == id);

@@ -43,10 +43,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Father)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
+            <td>          
+                @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+                { 
+                    <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID">Видалити  |</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.ID">Деталі</a>
             </td>
         </tr>
 }

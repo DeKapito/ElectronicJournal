@@ -9,35 +9,42 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    <p>Назва дисципліни</p>
-                </th>
-                <th>
-                    <p>Викладач</p>
-                </th>
+            <th>
+                <p>Назва дисципліни</p>
+            </th>
+            <th>
+                <p>Викладач</p>
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID">Видалити  |</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.ID"> Деталі </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
-<p>
-    <a asp-action="Create"><h4>Додати дисципліну</h4></a>
-</p>
+@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+{
+    <p>
+        <a asp-action="Create"><h4>Додати дисципліну</h4></a>
+    </p>
+}

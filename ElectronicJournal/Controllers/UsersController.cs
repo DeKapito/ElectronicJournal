@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ElectronicJournal.Models;
 using ElectronicJournal.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,17 +22,21 @@ namespace ElectronicJournal.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(_userManager.Users.ToList());
         }
+
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -63,6 +68,7 @@ namespace ElectronicJournal.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -87,6 +93,7 @@ namespace ElectronicJournal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(EditUserViewModel model, List<string> roles)
         {
             if (ModelState.IsValid)
@@ -128,6 +135,7 @@ namespace ElectronicJournal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(string id)
         {
             User user = await _userManager.FindByIdAsync(id);

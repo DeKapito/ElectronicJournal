@@ -7,6 +7,9 @@
     <a href="/students"><h2>Список групи</h2></a>
     <a href="/subjects"><h2>Список дисциплін</h2></a>
     <a href="/lessons/IndexPagging"><h2>Редагування пар</h2></a>
-    <a href="/users/index"><h2>Користувачі</h2></a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a href="/users/index"><h2>Користувачі</h2></a>
+    }
     <a href="/PaperViews/index"><h2>Переглянути тиждень (вигляд як в паперовому журналі)</h2></a>
 </div>

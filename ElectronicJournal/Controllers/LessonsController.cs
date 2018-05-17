@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ElectronicJournal.Models;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicJournal.Controllers
 {
@@ -20,6 +21,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var electronicJournalContext = _context.Lesson.Include(l => l.Subject)
@@ -32,6 +34,7 @@ namespace ElectronicJournal.Controllers
 
         //GET: Lessons
         //public async IActionResult IndexPagging(int? id = 1)
+        [Authorize]
         public async Task<IActionResult> IndexPagging(int? id = 1)
         {
             if (id == null || id <= 0)
@@ -59,6 +62,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -87,6 +91,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons/Create
+        [Authorize(Roles = "Admin, GroupLeader")]
         public IActionResult Create()
         {
             ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "SubjectName");
@@ -100,6 +105,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID,NumberLesson,Missings")] Lesson lesson)
         {
             if (ModelState.IsValid)
@@ -129,6 +135,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons/Edit/5
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -150,6 +157,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Classroom,Type,SubjectID, NumberLesson")] Lesson lesson)
         {
             if (id != lesson.ID)
@@ -182,6 +190,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Missings1/Create
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> AddMissings(int? id)
         {
             if (id == null)
@@ -216,6 +225,7 @@ namespace ElectronicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> AddMissings(List<Missing> missings, Lesson lesson)   //public async Task<IActionResult> AddMissings([Bind("ID,StudentID,IsMissing,LessonID")] Missing missing)
         {
             if (ModelState.IsValid)
@@ -243,6 +253,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons/Delete/5
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -264,6 +275,7 @@ namespace ElectronicJournal.Controllers
         // POST: Lessons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, GroupLeader")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var lesson = await _context.Lesson.SingleOrDefaultAsync(m => m.ID == id);

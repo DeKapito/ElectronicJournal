@@ -13,76 +13,86 @@
 
 <table class="table">
     <tbody>
-        @{ 
+        @{
             var culture = new System.Globalization.CultureInfo("uk-UA");
             int i = 0;
         }
-        @foreach(var week in Model.GroupBy(m => m.Key.Date.StartOfWeek(DayOfWeek.Monday)))
+        @foreach (var week in Model.GroupBy(m => m.Key.Date.StartOfWeek(DayOfWeek.Monday)))
         {
             <tr>
-                <th></th><th></th>
+                <th></th>
+                <th></th>
                 <th>
-                    <br/><h2>Тиждень @(++i)</h2>
+                    <br /><h2>Тиждень @(++i)</h2>
                 </th>
-                <th></th><th></th><th></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
 
             @foreach (var group in week)
             {
                 <tr>
-                <th>
-                    <h2 class="heads">@culture.DateTimeFormat.GetDayName(group.Key.DayOfWeek)</h2>
-                </th>
-                    <th></th><th></th><th></th><th></th><th></th>
+                    <th>
+                        <h2 class="heads">@culture.DateTimeFormat.GetDayName(group.Key.DayOfWeek)</h2>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <tr>
-            <th>
-                <p>Назва заняття</p>
-            </th>
-            <th>
-                <p>Аудиторія</p>
-            </th>
-            <th>
-                <p>Тип заняття</p>
-            </th>
-            <th>
-                <p>Номер пари</p>
-            </th>
-            <th>
-                <p>Дата</p>
-            </th>
-            <th></th>
-        </tr>
+                    <th>
+                        <p>Назва заняття</p>
+                    </th>
+                    <th>
+                        <p>Аудиторія</p>
+                    </th>
+                    <th>
+                        <p>Тип заняття</p>
+                    </th>
+                    <th>
+                        <p>Номер пари</p>
+                    </th>
+                    <th>
+                        <p>Дата</p>
+                    </th>
+                    <th></th>
+                </tr>
 
                 foreach (var item in group)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Classroom)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumberLesson)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Classroom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberLesson)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
 
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
-                        <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
-                    </td>
-                </tr>
+                        <td>
+                            @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
+                                <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх  |</a>
+                                <a asp-action="Delete" asp-route-id="@item.ID">Видалити |</a>
+                            }
+                            <a asp-action="Details" asp-route-id="@item.ID">Деталі</a>
+                        </td>
+                    </tr>
                 }
             }
-         }
+        }
     </tbody>
 </table>
 
@@ -90,6 +100,9 @@
     <a asp-action="IndexPagging" asp-route-id="1"><h4>Вивести по сторінках</h4></a>
 </p>
 
-<p>
-    <a asp-action="Create"><h4>Додати нову пару</h4></a>
-</p>
+@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+{
+    <p>
+        <a asp-action="Create"><h4>Додати нову пару</h4></a>
+    </p>
+}

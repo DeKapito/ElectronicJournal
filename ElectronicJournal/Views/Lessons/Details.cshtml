@@ -1,4 +1,6 @@
 ﻿@model ElectronicJournal.Models.Lesson
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Details";
@@ -77,7 +79,11 @@
 </table>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Редагувати пару</a> |
-    <a asp-action="AddMissings" asp-route-id="@Model.ID">Редагувати відсутніх</a> |
+    @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ID">Редагувати пару  |</a>
+        <a asp-action="AddMissings" asp-route-id="@Model.ID">Редагувати відсутніх  |</a>
+    }
     <a asp-action="Index">Назад до списку</a>
+
 </div>
