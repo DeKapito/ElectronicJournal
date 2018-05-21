@@ -10,70 +10,48 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicJournal.Controllers
 {
-    public class SubjectsController : Controller
+    public class GroupsController : Controller
     {
         private readonly ElectronicJournalContext _context;
 
-        public SubjectsController(ElectronicJournalContext context)
+        public GroupsController(ElectronicJournalContext context)
         {
             _context = context;
         }
 
-        // GET: Subjects
-        [Authorize]
+        // GET: Groups
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            //var user = _context.Users.First(m => m.Name == User.Identity.Name);
-            var subjects = _context.Subject.OrderBy(s => s.SubjectName);
-
-            return View(await subjects.ToListAsync());
+            return View(await _context.Group.ToListAsync());
         }
 
-        // GET: Subjects/Details/5
-        [Authorize]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var subject = await _context.Subject
-                .SingleOrDefaultAsync(m => m.ID == id);
-            if (subject == null)
-            {
-                return NotFound();
-            }
-
-            return View(subject);
-        }
-
-        // GET: Subjects/Create
-        [Authorize(Roles = "Admin, GroupLeader")]
+        // GET: Groups/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Subjects/Create
+        // POST: Groups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
-        public async Task<IActionResult> Create([Bind("ID,SubjectName,Teacher")] Subject subject)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([Bind("ID,Name")] Group group)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subject);
+                _context.Add(group);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(subject);
+            return View(group);
         }
 
-        // GET: Subjects/Edit/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        // GET: Groups/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,23 +59,23 @@ namespace ElectronicJournal.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subject.SingleOrDefaultAsync(m => m.ID == id);
-            if (subject == null)
+            var group = await _context.Group.SingleOrDefaultAsync(m => m.ID == id);
+            if (group == null)
             {
                 return NotFound();
             }
-            return View(subject);
+            return View(group);
         }
 
-        // POST: Subjects/Edit/5
+        // POST: Groups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,SubjectName,Teacher")] Subject subject)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Group group)
         {
-            if (id != subject.ID)
+            if (id != group.ID)
             {
                 return NotFound();
             }
@@ -106,12 +84,12 @@ namespace ElectronicJournal.Controllers
             {
                 try
                 {
-                    _context.Update(subject);
+                    _context.Update(group);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SubjectExists(subject.ID))
+                    if (!GroupExists(group.ID))
                     {
                         return NotFound();
                     }
@@ -122,11 +100,11 @@ namespace ElectronicJournal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(subject);
+            return View(group);
         }
 
-        // GET: Subjects/Delete/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        // GET: Groups/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,31 +112,31 @@ namespace ElectronicJournal.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subject
+            var group = await _context.Group
                 .SingleOrDefaultAsync(m => m.ID == id);
-            if (subject == null)
+            if (group == null)
             {
                 return NotFound();
             }
 
-            return View(subject);
+            return View(group);
         }
 
-        // POST: Subjects/Delete/5
+        // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subject = await _context.Subject.SingleOrDefaultAsync(m => m.ID == id);
-            _context.Subject.Remove(subject);
+            var group = await _context.Group.SingleOrDefaultAsync(m => m.ID == id);
+            _context.Group.Remove(group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SubjectExists(int id)
+        private bool GroupExists(int id)
         {
-            return _context.Subject.Any(e => e.ID == id);
+            return _context.Group.Any(e => e.ID == id);
         }
     }
 }

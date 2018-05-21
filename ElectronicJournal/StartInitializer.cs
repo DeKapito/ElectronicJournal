@@ -15,7 +15,7 @@ namespace ElectronicJournal
             string password = "!Journal123";
             string adminName = "Дмитро";
             string adminLastName = "Капітула";
-            string adminGroup = "КНІТ-21";
+            Group adminGroup = null;
 
             if (await roleManager.FindByNameAsync("Admin") == null)
             {

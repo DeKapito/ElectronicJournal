@@ -10,6 +10,9 @@ namespace ElectronicJournal.Models
     {
         public string Name { get; set; }
         public string LastName { get; set; }
-        public string Group { get; set; }
+      //  public string Group { get; set; }
+
+        public int? GroupID { get; set; }
+        public virtual Group Group { get; set; }
     }
 }

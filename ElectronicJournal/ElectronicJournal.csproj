@@ -17,6 +17,12 @@
     <Compile Remove="Migrations\20180506174626_SimpleMissing.cs" />
     <Compile Remove="Migrations\20180506175357_SimpleMissing.cs" />
     <Compile Remove="Migrations\20180506175620_SimpleMissing.cs" />
+    <Compile Remove="Migrations\20180517165647_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170011_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170109_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170237_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170259_AddedGroups2.cs" />
+    <Compile Remove="Migrations\20180517170554_AddedGroups2.cs" />
   </ItemGroup>
 
   <ItemGroup>

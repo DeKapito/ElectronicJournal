@@ -1,0 +1,152 @@
+﻿@model List<Lesson>
+
+@{
+    ViewData["Title"] = "Перегляд";
+}
+
+<style>
+    .heads {
+        color: royalblue
+    }
+
+    .formButtons {
+        position: relative;
+    }
+
+    table td.vertical {
+        text-align: center;
+        white-space: nowrap;
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+        table td p.vertical {
+            margin: 0 -100%;
+            display: inline-block;
+        }
+
+            table td p:before {
+                content: '';
+                width: 0;
+                padding-top: 110%;
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+    /*table {
+        text-align: center;
+        table-layout: fixed;
+        width: 150px;
+    }*/
+</style>
+
+<h1>Тиждень @ViewBag.numberOfWeek</h1>
+
+@{
+    var culture = new System.Globalization.CultureInfo("uk-UA");
+}
+
+<table class="table">
+    @*<tr>
+        <td colspan="3">1</td>
+        @foreach (var day in Model.GroupBy(m => m.Date))
+        {
+            @foreach (var item in day)
+            {
+                <td class="vertical">
+                    <p class="vertical">@Html.DisplayFor(modelItem => item.Subject.SubjectName)
+                </td>
+                <td class="vertical">
+                    <p class="vertical">@Html.DisplayFor(modelItem => item.Subject.Teacher)</p>
+                </td>
+                <td data-item="3" colspan="1">@item.Classroom</td>
+            }
+        }
+    </tr>*@
+    <tr>
+        <td rowspan="2">№</td>
+        <td rowspan="2">Прізвища та ініціали студентів</td>
+        <td>Аудиторія</td>
+    </tr>
+    <tr>
+        <td>Дата</td>
+    </tr>
+    <tr>
+        <td>4</td>
+    </tr>
+
+    @for(int i = 0; i < ViewBag.students.Count; i++)
+    {
+        <tr>
+            <td>
+                @(i + 1)
+            </td>
+            <td>
+                @ViewBag.students[i].LastName;
+            </td>
+        </tr>
+
+    }
+    @*@foreach (var day in Model.GroupBy(m => m.Date))
+    {
+        <tr>
+            <th>
+                <h2 class="heads">@culture.DateTimeFormat.GetDayName(day.Key.DayOfWeek)</h2>
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>
+                <p>Назва заняття</p>
+            </th>
+            <th>
+                <p>Аудиторія</p>
+            </th>
+            <th>
+                <p>Тип заняття</p>
+            </th>
+            <th>
+                <p>Номер пари</p>
+            </th>
+            <th>
+                <p>Дата</p>
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in day)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classroom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberLesson)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
+                    <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
+                </td>
+            </tr>
+        }
+    }*@
+</table>
+

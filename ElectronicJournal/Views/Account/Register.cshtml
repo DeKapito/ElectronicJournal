@@ -18,9 +18,9 @@
         <span asp-validation-for="LastName"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Group">Група</label><br />
-        <input asp-for="Group" />
-        <span asp-validation-for="Group"></span>
+        <label asp-for="GroupID">Група</label><br />
+        @Html.DropDownListFor(m => m.GroupID, new SelectList(ViewBag.groups, "ID", "Name"))
+        <span asp-validation-for="GroupID"></span>
     </div>
     <div class="form-group">
         <label asp-for="Email">e-mail</label><br />

@@ -11,9 +11,10 @@ using System;
 namespace ElectronicJournal.Migrations
 {
     [DbContext(typeof(ElectronicJournalContext))]
-    partial class ElectronicJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20180517183459_AddedGroups2")]
+    partial class AddedGroups2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

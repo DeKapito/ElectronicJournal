@@ -14,17 +14,20 @@ namespace ElectronicJournal.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ElectronicJournalContext _context;
 
-        public UsersController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public UsersController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ElectronicJournalContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
+            ViewBag.groups = _context.Group.ToList();
             return View(_userManager.Users.ToList());
         }
 
@@ -32,6 +35,7 @@ namespace ElectronicJournal.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
+            ViewBag.groups = _context.Group.ToList();
             return View();
         }
 
@@ -46,7 +50,7 @@ namespace ElectronicJournal.Controllers
                     UserName = model.Email,
                     Name = model.Name,
                     LastName = model.LastName,
-                    Group = model.Group
+                    GroupID = model.GroupID
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -84,11 +88,12 @@ namespace ElectronicJournal.Controllers
                                                 Id = user.Id,
                                                 Name = user.Name,
                                                 LastName = user.LastName,
-                                                Group = user.Group,
+                                                GroupID = user.GroupID,
                                                 Email = user.Email,
                                                 UserRoles = userRoles,
                                                 AllRoles = allRoles};
 
+            ViewBag.groups = _context.Group.ToList();
             return View(model);
         }
 
@@ -103,7 +108,7 @@ namespace ElectronicJournal.Controllers
                 {
                     user.Name = model.Name;
                     user.LastName = model.LastName;
-                    user.Group = model.Group;
+                    user.GroupID = model.GroupID;
                     user.Email = model.Email;
 
                     var userRoles = await _userManager.GetRolesAsync(user);

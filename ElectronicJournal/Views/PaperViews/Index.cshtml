@@ -1,4 +1,4 @@
-﻿@model List<Lesson>
+﻿@model ElectronicJournal.ViewModels.PaperViewModel
 
 @{
     ViewData["Title"] = "Перегляд";
@@ -13,122 +13,130 @@
         position: relative;
     }
 
-    table td.vertical {
-        text-align: center;
-        white-space: nowrap;
-        -webkit-transform: rotate(-90deg);
-        -moz-transform: rotate(-90deg);
-        -ms-transform: rotate(-90deg);
-        -o-transform: rotate(-90deg);
-        transform: rotate(-90deg);
+    table {
+        table-layout: fixed;
+        border-collapse: collapse;
     }
 
-        table td p.vertical {
-            margin: 0 -100%;
-            display: inline-block;
-        }
+    .vertical-text {
+        transform: rotate(270deg);
+        transform-origin: right top 0;
+    }
 
-            table td p:before {
-                content: '';
-                width: 0;
-                padding-top: 110%;
-                display: inline-block;
-                vertical-align: middle;
-            }
+        /*table td.vertical {
+            text-align: center;
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg);
+            -o-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+            
+            white-space: nowrap;
+        }*/
 
-    /*table {
-        text-align: center;
-        table-layout: fixed;
-        width: 150px;
+    /*p.vertical {
+        height: 200px;
+        margin: 0 -60%;
+        margin-right: 0 -110%;
     }*/
+        /*table td p:before {
+        content: '';
+        width: 0;
+        padding-top: 110%;
+        display: inline-block;
+        vertical-align: middle;
+    }*/
+
 </style>
 
 <h1>Тиждень @ViewBag.numberOfWeek</h1>
 
 @{
     var culture = new System.Globalization.CultureInfo("uk-UA");
+    List<string> classrooms = new List<string>();
+    List<DateTime> dates = new List<DateTime>();
 }
 
-<table class="table">
+@*<table class="table" border="1">*@
+<table class="table-bordered table-hover table-striped table-condensed">
     <tr>
-        <td colspan="3">1</td>
-        @foreach (var day in Model.GroupBy(m => m.Date))
+        <td width="30px" style="border-right-style:hidden"></td>
+        <td width="180px" style="border-right-style:hidden"></td>
+        <td width="90px"></td>
+        @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
         {
             @foreach (var item in day)
             {
-                <td class="vertical"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.SubjectName)</p></td>
-
+                classrooms.Add(item.Classroom);
+                dates.Add(item.Date);
+                <td>
+                    <p class="vertical-text">@Html.DisplayFor(modelItem => item.Subject.SubjectName)</p>
+                </td>
+                <td>
+                    <p>@Html.DisplayFor(modelItem => item.Subject.Teacher)</p>
+                </td>
             }
         }
     </tr>
+
     <tr>
         <td rowspan="2">№</td>
-        <td rowspan="2">Прізвища та ініціали</td>
+        <td rowspan="2">Прізвища та ініціали студентів</td>
         <td>Аудиторія</td>
+
+        @foreach(var room in classrooms)
+        {
+            <td colspan="2" align="center">
+                @room
+            </td>
+        }
     </tr>
     <tr>
         <td>Дата</td>
+        @foreach(var date in dates)
+        {
+        <td colspan="2" align="center">
+            @culture.DateTimeFormat.GetDayName(date.DayOfWeek) (@date.ToShortDateString().Substring(0, 5))
+        </td>
+        }
     </tr>
-    <tr>
-        <td>4</td>
-    </tr>
-    @*@foreach (var day in Model.GroupBy(m => m.Date))
+
+    @for (int i = 0; i < Model.Students.Count; i++)
     {
         <tr>
-            <th>
-                <h2 class="heads">@culture.DateTimeFormat.GetDayName(day.Key.DayOfWeek)</h2>
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>
-                <p>Назва заняття</p>
-            </th>
-            <th>
-                <p>Аудиторія</p>
-            </th>
-            <th>
-                <p>Тип заняття</p>
-            </th>
-            <th>
-                <p>Номер пари</p>
-            </th>
-            <th>
-                <p>Дата</p>
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in day)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Classroom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberLesson)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
+            <td>
+                @(i + 1)
+            </td>
+            <td>
+                @Model.Students[i].LastName @Model.Students[i].Name[0]. @Model.Students[i].Father[0].
+            </td>
+            <td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
-                    <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Деталі</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
+            </td>
+            @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
+            {
+                @foreach (var item in day)
+                {
+                    var missing = item.Missings.Where(s => s.StudentID == Model.Students[i].ID).First();
+                <td colspan="2" align="center">
+                    @switch(missing.IsMissing)
+                    {
+                       case IsMissing.present:
+                            break;
+
+                       case IsMissing.withoutReason:
+                            <i>нп</i>
+                            break;
+
+                       case IsMissing.illness:
+                            <i>хв</i>
+                            break;
+                    }
                 </td>
-            </tr>
-        }
-    }*@
+                }
+            }
+        </tr>
+
+    }
 </table>
 

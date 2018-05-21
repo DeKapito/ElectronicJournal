@@ -15,7 +15,6 @@ namespace ElectronicJournal.Models
         {
         }
 
-
         public DbSet<ElectronicJournal.Models.Student> Student { get; set; }
 
         public DbSet<ElectronicJournal.Models.Subject> Subject { get; set; }
@@ -23,5 +22,12 @@ namespace ElectronicJournal.Models
         public DbSet<ElectronicJournal.Models.Missing> Missing { get; set; }
 
         public DbSet<ElectronicJournal.Models.Lesson> Lesson { get; set; }
+
+        public DbSet<ElectronicJournal.Models.Group> Group { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicJournal.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace ElectronicJournal.ViewModels
 
         [Required]
         [Display(Name = "Група")]
-        public string Group { get; set; }
+        public int? GroupID { get; set; }
+        public Group Group { get; set; }
 
         [Required]
         [Display(Name = "E-mail")]

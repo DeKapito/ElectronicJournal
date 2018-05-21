@@ -14,16 +14,19 @@ namespace ElectronicJournal.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ElectronicJournalContext _context;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ElectronicJournalContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [HttpGet]
         public IActionResult Register()
         {
+            ViewBag.groups = _context.Group.ToList();
             return View();
         }
 
@@ -42,7 +45,7 @@ namespace ElectronicJournal.Controllers
             {
                 User user = new User { Email = model.Email, UserName = model.Email,
                                         Name = model.Name, LastName = model.LastName,
-                                        Group = model.Group};
+                                        GroupID = model.GroupID};
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, "Student");    /////////
