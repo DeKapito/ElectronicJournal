@@ -13,39 +13,32 @@
         position: relative;
     }
 
+    /*.tableContainer {
+        width: 1100px;
+        overflow: auto;
+    }*/
+
     table {
         table-layout: fixed;
         border-collapse: collapse;
     }
 
-    .vertical-text {
-        transform: rotate(270deg);
-        transform-origin: right top 0;
+    table td.vertical {
+        height: 300px;
+        white-space: nowrap;
+        /*width:30px;*/
     }
 
-        /*table td.vertical {
-            text-align: center;
-            -webkit-transform: rotate(-90deg);
-            -moz-transform: rotate(-90deg);
-            -ms-transform: rotate(-90deg);
-            -o-transform: rotate(-90deg);
-            transform: rotate(-90deg);
-            
-            white-space: nowrap;
-        }*/
+    .vertical-text {
+        transform:
+        translate(10px, 145px)
+        rotate(-90deg);
+        width: 30px;
+    }
 
-    /*p.vertical {
-        height: 200px;
-        margin: 0 -60%;
-        margin-right: 0 -110%;
-    }*/
-        /*table td p:before {
-        content: '';
-        width: 0;
-        padding-top: 110%;
-        display: inline-block;
-        vertical-align: middle;
-    }*/
+    p.vertical {
+        padding: 5px 10px;
+    }
 
 </style>
 
@@ -57,86 +50,86 @@
     List<DateTime> dates = new List<DateTime>();
 }
 
-@*<table class="table" border="1">*@
+@*<div class="tableContainer">*@
 <table class="table-bordered table-hover table-striped table-condensed">
-    <tr>
-        <td width="30px" style="border-right-style:hidden"></td>
-        <td width="180px" style="border-right-style:hidden"></td>
-        <td width="90px"></td>
-        @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
-        {
-            @foreach (var item in day)
-            {
-                classrooms.Add(item.Classroom);
-                dates.Add(item.Date);
-                <td>
-                    <p class="vertical-text">@Html.DisplayFor(modelItem => item.Subject.SubjectName)</p>
-                </td>
-                <td>
-                    <p>@Html.DisplayFor(modelItem => item.Subject.Teacher)</p>
-                </td>
-            }
-        }
-    </tr>
-
-    <tr>
-        <td rowspan="2">№</td>
-        <td rowspan="2">Прізвища та ініціали студентів</td>
-        <td>Аудиторія</td>
-
-        @foreach(var room in classrooms)
-        {
-            <td colspan="2" align="center">
-                @room
-            </td>
-        }
-    </tr>
-    <tr>
-        <td>Дата</td>
-        @foreach(var date in dates)
-        {
-        <td colspan="2" align="center">
-            @culture.DateTimeFormat.GetDayName(date.DayOfWeek) (@date.ToShortDateString().Substring(0, 5))
-        </td>
-        }
-    </tr>
-
-    @for (int i = 0; i < Model.Students.Count; i++)
-    {
+    <thead>
         <tr>
-            <td>
-                @(i + 1)
-            </td>
-            <td>
-                @Model.Students[i].LastName @Model.Students[i].Name[0]. @Model.Students[i].Father[0].
-            </td>
-            <td>
-
-            </td>
+            <td width="30px" style="border-right-style:hidden; min-width: 30px;"></td>
+            <td width="180px" style="border-right-style:hidden; min-width: 180px;"></td>
+            <td width="90px" style="min-width: 90px;"></td>
             @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
             {
                 @foreach (var item in day)
                 {
-                    var missing = item.Missings.Where(s => s.StudentID == Model.Students[i].ID).First();
-                <td colspan="2" align="center">
-                    @switch(missing.IsMissing)
-                    {
-                       case IsMissing.present:
-                            break;
-
-                       case IsMissing.withoutReason:
-                            <i>нп</i>
-                            break;
-
-                       case IsMissing.illness:
-                            <i>хв</i>
-                            break;
-                    }
-                </td>
+                    classrooms.Add(item.Classroom);
+                    dates.Add(item.Date);
+                    <td class="vertical">
+                        <div class="vertical-text"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.SubjectName)</p></div>
+                    </td>
+                    <td class="vertical">
+                        <div class="vertical-text"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.Teacher)</p></div>
+                    </td>
                 }
             }
         </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="2">№</td>
+            <td rowspan="2">Прізвища та ініціали студентів</td>
+            <td>Аудиторія</td>
 
-    }
+            @foreach (var room in classrooms)
+            {
+                <td colspan="2" align="center">
+                    @room
+                </td>
+            }
+        </tr>
+        <tr>
+            <td>Дата</td>
+            @foreach (var date in dates)
+            {
+                <td colspan="2" align="center">
+                    @culture.DateTimeFormat.GetDayName(date.DayOfWeek) (@date.ToShortDateString().Substring(0, 5))
+                </td>
+            }
+        </tr>
+
+        @for (int i = 0; i < Model.Students.Count; i++)
+        {
+            <tr>
+                <td>
+                    @(i + 1)
+                </td>
+                <td>
+                    @Model.Students[i].LastName @Model.Students[i].Name[0]. @Model.Students[i].Father[0].
+                </td>
+                <td></td>
+                @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
+                {
+                    @foreach (var item in day)
+                    {
+                        var missing = item.Missings.Where(s => s.StudentID == Model.Students[i].ID).First();
+                        <td colspan="2" align="center">
+                        @switch (missing.IsMissing)
+                        {
+                            case IsMissing.present:
+                                break;
+
+                            case IsMissing.withoutReason:
+                                <i>нп</i>
+                                break;
+
+                            case IsMissing.illness:
+                                <i>хв</i>
+                                break;
+                        }
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
 </table>
-
+    @*</div>*@
