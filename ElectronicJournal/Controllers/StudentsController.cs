@@ -23,7 +23,8 @@ namespace ElectronicJournal.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var students = _context.Student.OrderBy(s => s.LastName);
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+            var students = _context.Student.Where(m => m.GroupID == groupId).OrderBy(s => s.LastName);
 
             return View(await students.ToListAsync());
         }
@@ -54,9 +55,6 @@ namespace ElectronicJournal.Controllers
             return View();
         }
 
-        // POST: Students/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, GroupLeader")]
@@ -64,6 +62,7 @@ namespace ElectronicJournal.Controllers
         {
             if (ModelState.IsValid)
             {
+                student.GroupID = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
                 _context.Add(student);
 
                 await _context.SaveChangesAsync();
@@ -89,13 +88,10 @@ namespace ElectronicJournal.Controllers
             return View(student);
         }
 
-        // POST: Students/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, GroupLeader")]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,LastName,Father")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,LastName,Father,GroupID")] Student student)
         {
             if (id != student.ID)
             {

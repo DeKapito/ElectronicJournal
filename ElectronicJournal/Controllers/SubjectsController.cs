@@ -23,8 +23,8 @@ namespace ElectronicJournal.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            //var user = _context.Users.First(m => m.Name == User.Identity.Name);
-            var subjects = _context.Subject.OrderBy(s => s.SubjectName);
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+            var subjects = _context.Subject.Where(m => m.GroupID == groupId).OrderBy(s => s.SubjectName);
 
             return View(await subjects.ToListAsync());
         }
@@ -55,9 +55,6 @@ namespace ElectronicJournal.Controllers
             return View();
         }
 
-        // POST: Subjects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, GroupLeader")]
@@ -65,6 +62,7 @@ namespace ElectronicJournal.Controllers
         {
             if (ModelState.IsValid)
             {
+                subject.GroupID = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,13 +87,10 @@ namespace ElectronicJournal.Controllers
             return View(subject);
         }
 
-        // POST: Subjects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, GroupLeader")]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,SubjectName,Teacher")] Subject subject)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,SubjectName,Teacher,GroupID")] Subject subject)
         {
             if (id != subject.ID)
             {

@@ -53,6 +53,9 @@ namespace ElectronicJournal.Models
         public int SubjectID { get; set; }
         public Subject Subject { get; set; }
 
+        public int? GroupID { get; set; }
+        public virtual Group Group { get; set; }
+
         public ICollection<Missing> Missings { get; set; }
     }
 }

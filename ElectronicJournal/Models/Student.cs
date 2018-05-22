@@ -22,6 +22,9 @@ namespace ElectronicJournal.Models
         [StringLength(50)]
         public string Father { get; set; }
 
+        public int? GroupID { get; set; }
+        public virtual Group Group { get; set; }
+
         public ICollection<Missing> Missings { get; set; }
     }
 }

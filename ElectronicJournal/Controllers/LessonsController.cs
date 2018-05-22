@@ -24,7 +24,8 @@ namespace ElectronicJournal.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var electronicJournalContext = _context.Lesson.Include(l => l.Subject)
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+            var electronicJournalContext = _context.Lesson.Where(m => m.GroupID == groupId).Include(l => l.Subject)
                                                             .OrderBy(l => l.Date)
                                                             .GroupBy(l => l.Date);                                                    
 
@@ -44,14 +45,15 @@ namespace ElectronicJournal.Controllers
 
             int numberOfWeek = (int)id;
 
-            var weeks = _context.Lesson.Include(l => l.Subject)
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+            var weeks = _context.Lesson.Where(m => m.GroupID == groupId).Include(l => l.Subject)
                                                             .OrderBy(l => l.Date)
                                                             //.GroupBy(l => l.Date);
                                                             .GroupBy(l => l.Date.StartOfWeek(DayOfWeek.Monday)).ToList();
 
             if(numberOfWeek > weeks.Count)
             {
-                return NotFound();
+                return View("DataNotFound");
             }
 
             var week = weeks[numberOfWeek - 1];
@@ -77,8 +79,9 @@ namespace ElectronicJournal.Controllers
             {
                 return NotFound();
             }
-            ViewBag.students = await _context.Student.OrderBy(m => m.LastName).ToListAsync();
-            ViewBag.missings = await _context.Missing.Where(l => l.LessonID == id).OrderBy(l => l.Student.LastName).ToListAsync();
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+            ViewBag.students = await _context.Student.Where(s => s.GroupID == groupId).OrderBy(m => m.LastName).ToListAsync();
+            ViewBag.missings = await _context.Missing.Where(l => l.LessonID == id).Where(l => l.Student.GroupID == groupId).OrderBy(l => l.Student.LastName).ToListAsync();
             var missings = await _context.Missing.Where(l => l.LessonID == id).OrderBy(l => l.Student.LastName).ToListAsync();
 
             //Якщо н-ки не виставлені
@@ -94,8 +97,9 @@ namespace ElectronicJournal.Controllers
         [Authorize(Roles = "Admin, GroupLeader")]
         public IActionResult Create()
         {
-            ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "SubjectName");
-            ViewBag.Students = _context.Student.OrderBy(m => m.LastName).ToList();
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+            ViewData["SubjectID"] = new SelectList(_context.Subject.Where(m => m.GroupID == groupId), "ID", "SubjectName");
+            ViewBag.Students = _context.Student.Where(m => m.GroupID == groupId).OrderBy(m => m.LastName).ToList();
 
             return View();
         }
@@ -106,10 +110,11 @@ namespace ElectronicJournal.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, GroupLeader")]
-        public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID,NumberLesson,Missings")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID,NumberLesson,Missings,GroupID")] Lesson lesson)
         {
             if (ModelState.IsValid)
             { 
+                lesson.GroupID = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
                 _context.Add(lesson);
 
                 //////////////////////////////Протестити цей блок коду
@@ -158,7 +163,7 @@ namespace ElectronicJournal.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, GroupLeader")]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Classroom,Type,SubjectID, NumberLesson")] Lesson lesson)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Classroom,Type,SubjectID, NumberLesson, GroupID")] Lesson lesson)
         {
             if (id != lesson.ID)
             {
@@ -205,8 +210,9 @@ namespace ElectronicJournal.Controllers
                 return NotFound();
             }
 
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
             ViewBag.lesson = lesson;
-            ViewBag.students = await _context.Student.OrderBy(m => m.LastName).ToListAsync();
+            ViewBag.students = await _context.Student.Where(m => m.GroupID == groupId).OrderBy(m => m.LastName).ToListAsync();
 
             List<Missing> missings = new List<Missing>();
             foreach (Student item in ViewBag.students)
@@ -230,7 +236,8 @@ namespace ElectronicJournal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var students = await _context.Student.OrderBy(m => m.LastName).ToListAsync();
+                var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+                var students = await _context.Student.Where(m => m.GroupID == groupId).OrderBy(m => m.LastName).ToListAsync();
 
                 var missingsToDelete = _context.Missing.Where(m => m.LessonID == lesson.ID);
                 foreach(var item in missingsToDelete)

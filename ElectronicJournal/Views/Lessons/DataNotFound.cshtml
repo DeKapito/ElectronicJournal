@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "DataNotFound";
+}
+<br />
+<h2>Даних про пари не знайдено. Додайте, будь ласка, хоча б одну пару.</h2>
+
+@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+{
+    <br /><br />
+    <p>
+        <a asp-action="Create"><h4>Додати нову пару</h4></a>
+    </p>
+}
+

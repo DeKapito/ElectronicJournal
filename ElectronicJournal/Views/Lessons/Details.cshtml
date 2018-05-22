@@ -71,7 +71,7 @@
                     <p>@ViewBag.students[i].LastName @ViewBag.students[i].Name[0]. @ViewBag.students[i].Father[0]. </p>
                 </th>
                 <td>
-                    @Html.DisplayFor(m => m.Missings.OrderBy(l => l.Student.LastName).ToList()[i].IsMissing)
+                    @(ViewBag.missings[i].IsMissing)
                 </td>
             </tr>
         }

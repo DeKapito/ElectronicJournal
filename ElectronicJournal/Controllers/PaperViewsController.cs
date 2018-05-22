@@ -27,54 +27,27 @@ namespace ElectronicJournal.Controllers
 
             int numberOfWeek = (int)id;
 
-            var weeks = _context.Lesson.Include(l => l.Subject)
+            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+            var weeks = _context.Lesson.Where(m => m.GroupID == groupId).Include(l => l.Subject)
                                                             .OrderBy(l => l.Date)
                                                             .GroupBy(l => l.Date.StartOfWeek(DayOfWeek.Monday)).ToList();
 
             if (numberOfWeek > weeks.Count)
             {
-                return NotFound();
+                return NotFound();   ///////////////Допиляти
             }
 
             PaperViewModel paperViewModel = new PaperViewModel
             {
-                Students = _context.Student.OrderBy(s => s.LastName).ToList(),
+                Students = _context.Student.Where(s => s.GroupID == groupId).OrderBy(s => s.LastName).ToList(),
                 Lessons = weeks[numberOfWeek - 1].ToList(),
                 Missings = _context.Missing.ToList()
             };
 
-            //var week = weeks[numberOfWeek - 1];
+
             ViewBag.numberOfWeek = numberOfWeek;
-            //ViewBag.numWeeks = weeks.Count;
-            //ViewBag.students = _context.Student.OrderBy(s => s.LastName).ToList();
 
             return View(paperViewModel);
         }
-
-        //public IActionResult Index(int? id = 1)
-        //{
-        //    if (id == null || id <= 0)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    int numberOfWeek = (int)id;
-
-        //    var weeks = _context.Lesson.Include(l => l.Subject)
-        //                                                    .OrderBy(l => l.Date)
-        //                                                    .GroupBy(l => l.Date.StartOfWeek(DayOfWeek.Monday)).ToList();
-
-        //    if (numberOfWeek > weeks.Count)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var week = weeks[numberOfWeek - 1];
-        //    ViewBag.numberOfWeek = numberOfWeek;
-        //    ViewBag.numWeeks = weeks.Count;
-        //    ViewBag.students = _context.Student.OrderBy(s => s.LastName).ToList();
-
-        //    return View(week.ToList());
-        //}
     }
 }

@@ -18,6 +18,9 @@ namespace ElectronicJournal.Models
         [StringLength(50)]
         public string Teacher { get; set; }
 
+        public int? GroupID { get; set; }
+        public virtual Group Group { get; set; }
+
         public ICollection<Lesson> Lessons { get; set; }
     }
 }

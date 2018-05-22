@@ -110,7 +110,7 @@
                 {
                     @foreach (var item in day)
                     {
-                        var missing = item.Missings.Where(s => s.StudentID == Model.Students[i].ID).First();
+                        var missing = item.Missings.Where(s => s.StudentID == Model.Students[i].ID).FirstOrDefault();
                         <td colspan="2" align="center">
                         @switch (missing.IsMissing)
                         {
