@@ -288,7 +288,7 @@ namespace ElectronicJournal.Controllers
             var lesson = await _context.Lesson.SingleOrDefaultAsync(m => m.ID == id);
             _context.Lesson.Remove(lesson);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexPagging));
         }
 
         private bool LessonExists(int id)

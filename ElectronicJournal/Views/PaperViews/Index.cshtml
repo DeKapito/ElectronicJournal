@@ -43,6 +43,9 @@
 </style>
 
 <h1>Тиждень @ViewBag.numberOfWeek</h1>
+@*<form>
+    <button asp-action="Export" asp-route-id="@ViewBag.id">Export</button>
+</form>*@
 
 @{
     var culture = new System.Globalization.CultureInfo("uk-UA");
@@ -54,23 +57,28 @@
 <table class="table-bordered table-hover table-striped table-condensed">
     <thead>
         <tr>
-            <td width="30px" style="border-right-style:hidden; min-width: 30px;"></td>
-            <td width="180px" style="border-right-style:hidden; min-width: 180px;"></td>
-            <td width="90px" style="min-width: 90px;"></td>
+            <td width="30px" style="border-right-style:hidden; min-width: 30px;" rowspan="2"></td>
+            <td width="180px" style="border-right-style:hidden; min-width: 180px;" rowspan="2"></td>
+            <td width="90px" style="min-width: 90px;" rowspan="2"></td>
             @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
             {
                 @foreach (var item in day)
                 {
                     classrooms.Add(item.Classroom);
                     dates.Add(item.Date);
-                    <td class="vertical">
+                    <td class="vertical" rowspan="3">
                         <div class="vertical-text"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.SubjectName)</p></div>
                     </td>
-                    <td class="vertical">
-                        <div class="vertical-text"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.Teacher)</p></div>
+                    <td class="vertical" rowspan="3">
+                        <div class="vertical-text"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.Teacher) (@Html.DisplayFor(m => item.Type))</p></div>
                     </td>
                 }
             }
+            <td width="120px" colspan="4">Пропущено занять за тиждень(год.)</td>
+        </tr>
+        <tr>
+            @*<td width="60px" colspan="2">За тиждень</td>*@
+            @*<td width="60px" colspan="2">від поч. семестру</td>*@
         </tr>
     </thead>
     <tbody>
@@ -85,6 +93,10 @@
                     @room
                 </td>
             }
+            <td rowspan="2" width="60px">усього</td>
+            <td rowspan="2" width="60px">з непов. причин</td>
+            @*<td rowspan="2">усього</td>
+            <td rowspan="2">з непов. причин</td>*@
         </tr>
         <tr>
             <td>Дата</td>
@@ -95,9 +107,16 @@
                 </td>
             }
         </tr>
+        @{ 
+            int counterMissingsOfWeekWithoutReason = 0;
+            int counterMissingsOfWeek = 0;
+            Lesson lastLesson = null;
+        }
 
         @for (int i = 0; i < Model.Students.Count; i++)
         {
+            counterMissingsOfWeekWithoutReason = 0;
+            counterMissingsOfWeek = 0;
             <tr>
                 <td>
                     @(i + 1)
@@ -118,16 +137,22 @@
                                 break;
 
                             case IsMissing.withoutReason:
+                                counterMissingsOfWeekWithoutReason++;
+                                counterMissingsOfWeek++;
                                 <i>нп</i>
                                 break;
 
                             case IsMissing.illness:
+                                counterMissingsOfWeek++;
                                 <i>хв</i>
                                 break;
                         }
                         </td>
+                        lastLesson = item;
                     }
                 }
+                <td>@counterMissingsOfWeek</td>
+                <td>@counterMissingsOfWeekWithoutReason</td>
             </tr>
         }
     </tbody>

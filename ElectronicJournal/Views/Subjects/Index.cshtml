@@ -6,7 +6,7 @@
 
 <h2>Список дисциплін</h2>
 
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -30,12 +30,18 @@
                     @Html.DisplayFor(modelItem => item.Teacher)
                 </td>
                 <td>
+                    <a asp-action="Details" class="btn btn-default" asp-route-id="@item.ID"> Деталі </a>
                     @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+                    {
+                        <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.ID">Редагувати</a>
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.ID">Видалити</a>
+                    }        
+                    @*@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
                     {
                         <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
                         <a asp-action="Delete" asp-route-id="@item.ID">Видалити  |</a>
                     }
-                    <a asp-action="Details" asp-route-id="@item.ID"> Деталі </a>
+                    <a asp-action="Details" asp-route-id="@item.ID"> Деталі </a>*@
                 </td>
             </tr>
         }

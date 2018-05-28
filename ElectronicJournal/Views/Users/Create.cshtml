@@ -10,27 +10,27 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Name">Ім'я</label><br />
-        <input type="text" asp-for="Name" />
+        <input class="form-control" style="width: 40%" asp-for="Name" type="text" asp-for="Name" />
     </div>
     <div class="form-group">
         <label asp-for="LastName">Прізвище</label><br />
-        <input asp-for="LastName" />
+        <input class="form-control" style="width: 40%" asp-for="LastName" />
         <span asp-validation-for="LastName"></span>
     </div>
     <div class="form-group">
         <label asp-for="GroupID">Група</label><br />
         @*<select asp-for="GroupID" asp-items="@(new SelectList(ViewBag.groups, "ID", "Name"))"></select>*@
-        @Html.DropDownListFor(m => m.GroupID, new SelectList(ViewBag.groups, "ID", "Name"))
+        @Html.DropDownListFor(m => m.GroupID, new SelectList(ViewBag.groups, "ID", "Name"), new { @class = "form-control", @style = "width: 20%;" })
         @*@Html.DropDownListFor(m => m.GroupID, new SelectList(ViewBag.groups, "ID", "Name"), new { @class = "form-control", @style = "width:200px;" })*@
     </div>
     <div class="form-group">
         <label asp-for="Email">E-mail</label><br />
-        <input asp-for="Email" />
+        <input class="form-control" style="width: 40%" asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
     <div class="form-group">
         <label asp-for="Password">Пароль</label><br />
-        <input type="text" asp-for="Password" />
+        <input type="text" class="form-control" style="width: 40%" asp-for="Password" />
     </div>
     <div class="form-group">
         <input type="submit" value="Додати" class="btn btn-default" />

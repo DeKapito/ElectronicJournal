@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "65a0a2abc700ff2de01f961aceb1a3c1f3ed1b4f"
+    "signature": "6ecc462e5e31f163a87443d5c92e68b8bb222c29"
   },
   "compilationOptions": {
     "defines": [
@@ -26,13 +26,33 @@
           "Microsoft.AspNetCore.All": "2.0.6",
           "Microsoft.EntityFrameworkCore.Tools": "2.0.2",
           "Microsoft.NETCore.App": "2.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.0.3"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.0.3",
+          "NPOI.Core.Extension": "1.0.0"
         },
         "runtime": {
           "ElectronicJournal.dll": {}
         },
         "compile": {
           "ElectronicJournal.dll": {}
+        }
+      },
+      "DotNetCore.NPOI/1.0.2": {
+        "dependencies": {
+          "SharpZipLib": "1.0.0-alpha2",
+          "System.Text.Encoding.CodePages": "4.4.0",
+          "ZKWeb.System.Drawing": "4.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NPOI.OOXML.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXml4Net.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXmlFormats.dll": {},
+          "lib/netstandard2.0/NPOI.dll": {}
+        },
+        "compile": {
+          "lib/netstandard2.0/NPOI.OOXML.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXml4Net.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXmlFormats.dll": {},
+          "lib/netstandard2.0/NPOI.dll": {}
         }
       },
       "Libuv/1.10.0": {
@@ -2492,6 +2512,17 @@
           "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
         }
       },
+      "NPOI.Core.Extension/1.0.0": {
+        "dependencies": {
+          "DotNetCore.NPOI": "1.0.2"
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/NPOI.Core.Extension.dll": {}
+        },
+        "compile": {
+          "lib/netcoreapp2.0/NPOI.Core.Extension.dll": {}
+        }
+      },
       "NuGet.Frameworks/4.0.0": {
         "dependencies": {
           "NETStandard.Library": "2.0.0"
@@ -2684,6 +2715,17 @@
             "rid": "win-x86",
             "assetType": "native"
           }
+        }
+      },
+      "SharpZipLib/1.0.0-alpha2": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll": {}
         }
       },
       "SQLitePCLRaw.bundle_green/1.1.7": {
@@ -3876,6 +3918,9 @@
             "rid": "win",
             "assetType": "runtime"
           }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
         }
       },
       "System.Text.Encoding.Extensions/4.3.0": {
@@ -4052,6 +4097,22 @@
         },
         "compile": {
           "lib/netstandard1.3/Microsoft.WindowsAzure.Storage.dll": {}
+        }
+      },
+      "ZKWeb.System.Drawing/4.0.0": {
+        "dependencies": {
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel.TypeConverter": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0",
+          "System.Threading.Thread": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ZKWeb.System.Drawing.dll": {}
+        },
+        "compile": {
+          "lib/netstandard2.0/ZKWeb.System.Drawing.dll": {}
         }
       },
       "Microsoft.NETCore.App/2.0.0": {
@@ -4237,6 +4298,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "DotNetCore.NPOI/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aG/PvJGcY4RkMsVSDuxgEohuZDE1RYoBMfvLDgwhUvJEMR8R9QYz1tBKaINV5Zzly9sT59QHLWmTTb0B32IfEQ==",
+      "path": "dotnetcore.npoi/1.0.2",
+      "hashPath": "dotnetcore.npoi.1.0.2.nupkg.sha512"
     },
     "Libuv/1.10.0": {
       "type": "package",
@@ -5456,6 +5524,13 @@
       "path": "newtonsoft.json.bson/1.0.1",
       "hashPath": "newtonsoft.json.bson.1.0.1.nupkg.sha512"
     },
+    "NPOI.Core.Extension/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GwoqJo4uXahjuSIEor8RLDoo5e73vcj+ynsjdr+QfyuROZ7Es2FCghzgO8wi/T9qkbPUHKDXVZe3hFP/LNX3mg==",
+      "path": "npoi.core.extension/1.0.0",
+      "hashPath": "npoi.core.extension.1.0.0.nupkg.sha512"
+    },
     "NuGet.Frameworks/4.0.0": {
       "type": "package",
       "serviceable": true,
@@ -5616,6 +5691,13 @@
       "sha512": "sha512-YhEdSQUsTx+C8m8Bw7ar5/VesXvCFMItyZF7G1AUY+OM0VPZUOeAVpJ4Wl6fydBGUYZxojTDR3I6Bj/+BPkJNA==",
       "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
       "hashPath": "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
+    },
+    "SharpZipLib/1.0.0-alpha2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ndshrRoIzWdvoHr5ncGvSp3p/At+H2l4nT4bfWgPB0VU39TOT5/6uS6XbkO9N95Y8quO5RgLMiEBO3M0nq4pXw==",
+      "path": "sharpziplib/1.0.0-alpha2",
+      "hashPath": "sharpziplib.1.0.0-alpha2.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_green/1.1.7": {
       "type": "package",
@@ -6365,6 +6447,13 @@
       "sha512": "sha512-W6ZZ0/o7+3Qb77mRAQyLjPudHG3OMeeQ4p9yY13PUdJArmRCx2cLMm5F4tpIjJXxzHC0ew0oK7DMDGILMdfCnw==",
       "path": "windowsazure.storage/8.1.4",
       "hashPath": "windowsazure.storage.8.1.4.nupkg.sha512"
+    },
+    "ZKWeb.System.Drawing/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lcw/HyN/nOstmAWFBnokLT/LXUbY3Dsu9VP4z/V7XIVHfM3V3/kORZ4DfYw2X9LdEYDO2xMX12kj/aZ5aIpLHw==",
+      "path": "zkweb.system.drawing/4.0.0",
+      "hashPath": "zkweb.system.drawing.4.0.0.nupkg.sha512"
     },
     "Microsoft.NETCore.App/2.0.0": {
       "type": "package",

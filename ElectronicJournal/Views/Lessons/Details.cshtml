@@ -71,7 +71,8 @@
                     <p>@ViewBag.students[i].LastName @ViewBag.students[i].Name[0]. @ViewBag.students[i].Father[0]. </p>
                 </th>
                 <td>
-                    @(ViewBag.missings[i].IsMissing)
+                    @Html.DisplayFor(m => m.Missings.ToList()[i].IsMissing) 
+                    @*@(ViewBag.missings[i].IsMissing)*@
                 </td>
             </tr>
         }
@@ -84,6 +85,6 @@
         <a asp-action="Edit" asp-route-id="@Model.ID">Редагувати пару  |</a>
         <a asp-action="AddMissings" asp-route-id="@Model.ID">Редагувати відсутніх  |</a>
     }
-    <a asp-action="Index">Назад до списку</a>
+    <a asp-action="IndexPagging">Назад до списку</a>
 
 </div>

@@ -71,13 +71,13 @@
                     </td>
 
                     <td>
+                        <a asp-action="Details" asp-route-id="@item.ID">Деталі |</a>
                         @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
                         {
                             <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
                             <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх  |</a>
-                            <a asp-action="Delete" asp-route-id="@item.ID">Видалити |</a>
-                        }
-                        <a asp-action="Details" asp-route-id="@item.ID">Деталі</a>
+                            <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
+                        }              
                     </td>
                 </tr>
             }
