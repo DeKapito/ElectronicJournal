@@ -85,7 +85,7 @@
             @foreach (var date in dates)
             {
                 <td colspan="2" align="center">
-                    @culture.DateTimeFormat.GetDayName(date.DayOfWeek) (@date.ToShortDateString().Substring(0, 5))
+                    @culture.DateTimeFormat.GetDayName(date.DayOfWeek) (@date.Day.@date.Month)
                 </td>
             }
         </tr>

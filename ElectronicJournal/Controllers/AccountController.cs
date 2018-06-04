@@ -47,15 +47,14 @@ namespace ElectronicJournal.Controllers
                                         Name = model.Name, LastName = model.LastName,
                                         GroupID = model.GroupID};
 
-                var result = await _userManager.CreateAsync(user, model.Password);
-                //result = await _userManager.UpdateAsync(user);   /////////////   
+                var result = await _userManager.CreateAsync(user, model.Password);   
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "Student");    /////////
+                    await _userManager.AddToRoleAsync(user, "Student");
                     var codeForConfirm = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account",
-                                                    new { userId = user.Id, code = codeForConfirm }, //////////////////////
+                                                    new { userId = user.Id, code = codeForConfirm },
                                                     protocol: HttpContext.Request.Scheme);
 
                     EmailService emailService = new EmailService();
@@ -63,7 +62,6 @@ namespace ElectronicJournal.Controllers
                                                         "Для підтвердження реєстрації перейдіть за посиланням: <a href='" + callbackUrl + "'>link</a>");
 
                     return RedirectToAction("EmailNotification");
-                    //return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -100,7 +98,7 @@ namespace ElectronicJournal.Controllers
 
                         var codeForConfirm = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var callbackUrl = Url.Action("ConfirmEmail", "Account",
-                                                        new { userId = user.Id, code = codeForConfirm }, //////////////////////
+                                                        new { userId = user.Id, code = codeForConfirm },
                                                         protocol: HttpContext.Request.Scheme);
 
                         EmailService emailService = new EmailService();
@@ -188,12 +186,10 @@ namespace ElectronicJournal.Controllers
                 var user = await _userManager.FindByNameAsync(Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
-                    //ModelState.AddModelError(string.Empty, "Такий e-mail не зареєстровано");
-                    return RedirectToAction("ForgotPassword");  //////////////////////////
+                    return RedirectToAction("ForgotPassword");
                 }
 
                 var codeForConfirm = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.ResetPasswordCallbackLink()
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = codeForConfirm }, protocol: HttpContext.Request.Scheme);
 
                 EmailService emailService = new EmailService();

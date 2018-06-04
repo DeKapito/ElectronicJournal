@@ -29,12 +29,9 @@ namespace ElectronicJournal.Controllers
                                                             .OrderBy(l => l.Date)
                                                             .GroupBy(l => l.Date);                                                    
 
-            //перевірити різницю між async
             return View(await electronicJournalContext.ToListAsync());
         }
 
-        //GET: Lessons
-        //public async IActionResult IndexPagging(int? id = 1)
         [Authorize]
         public async Task<IActionResult> IndexPagging(int? id = 1)
         {
@@ -48,7 +45,6 @@ namespace ElectronicJournal.Controllers
             var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
             var weeks = _context.Lesson.Where(m => m.GroupID == groupId).Include(l => l.Subject)
                                                             .OrderBy(l => l.Date)
-                                                            //.GroupBy(l => l.Date);
                                                             .GroupBy(l => l.Date.StartOfWeek(DayOfWeek.Monday)).ToList();
 
             if(numberOfWeek > weeks.Count)
@@ -222,15 +218,13 @@ namespace ElectronicJournal.Controllers
                 missings.Add(temp);
             }
 
-            //ViewData["SubjectID"] = new SelectList(_context.Subject, "ID", "ID", lesson.SubjectID);
-            //ViewData["StudentID"] = new SelectList(_context.Student, "ID", "ID");
             return View(missings);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "GroupLeader")]
-        public async Task<IActionResult> AddMissings(List<Missing> missings, Lesson lesson)   //public async Task<IActionResult> AddMissings([Bind("ID,StudentID,IsMissing,LessonID")] Missing missing)
+        public async Task<IActionResult> AddMissings(List<Missing> missings, Lesson lesson)
         {
             if (ModelState.IsValid)
             {
