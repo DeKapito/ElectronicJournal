@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicJournal.Controllers
 {
-    public class SubjectsController : Controller
+    public class SubjectsController : Controller, IDataController
     {
         private readonly ElectronicJournalContext _context;
 
@@ -49,7 +49,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects/Create
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public IActionResult Create()
         {
             return View();
@@ -57,7 +57,7 @@ namespace ElectronicJournal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Create([Bind("ID,SubjectName,Teacher")] Subject subject)
         {
             if (ModelState.IsValid)
@@ -71,7 +71,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects/Edit/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,7 +89,7 @@ namespace ElectronicJournal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,SubjectName,Teacher,GroupID")] Subject subject)
         {
             if (id != subject.ID)
@@ -121,7 +121,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Subjects/Delete/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +142,7 @@ namespace ElectronicJournal.Controllers
         // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var subject = await _context.Subject.SingleOrDefaultAsync(m => m.ID == id);

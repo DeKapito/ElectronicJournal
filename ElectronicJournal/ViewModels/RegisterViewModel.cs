@@ -9,11 +9,11 @@ namespace ElectronicJournal.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Ім'я обов'язкове")]
         [Display(Name = "Ім'я")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Прізвище обов'язкове")]
         [Display(Name = "Прізвище")]
         public string LastName { get; set; }
 
@@ -22,19 +22,19 @@ namespace ElectronicJournal.ViewModels
         public int? GroupID { get; set; }
         public Group Group { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email обов'язковий")]
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "{0} має мати довжину мінімум {2} символів", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Required]
-        [Compare("Password", ErrorMessage = "Паролі не співпадають")]
         [DataType(DataType.Password)]
         [Display(Name = "Підтвердити пароль")]
+        [Compare("Password", ErrorMessage = "Паролі не співпадають")] 
         public string PasswordConfirm { get; set; }
     }
 }

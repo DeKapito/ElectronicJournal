@@ -69,6 +69,7 @@ namespace ElectronicJournal.Controllers
                     }
                 }
             }
+            ViewBag.groups = _context.Group.ToList();
             return View(model);
         }
 

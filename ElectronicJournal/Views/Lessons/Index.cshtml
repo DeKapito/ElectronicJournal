@@ -9,7 +9,17 @@
     }
 </style>
 
-<h1>Редагування пар</h1>
+<h1>Редагування пар</h1><br />
+
+<p>
+    <a asp-action="IndexPagging" asp-route-id="1"><h4>Вивести по сторінках</h4></a>
+</p>
+@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+{
+    <p>
+        <a asp-action="Create"><h4>Додати нову пару</h4></a>
+    </p>
+}
 
 <table class="table">
     <tbody>
@@ -88,14 +98,6 @@
                                 <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх  |</a>
                                 <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
                             }
-                            
-                            @*@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
-                            {
-                                <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
-                                <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх  |</a>
-                                <a asp-action="Delete" asp-route-id="@item.ID">Видалити |</a>
-                            }
-                            <a asp-action="Details" asp-route-id="@item.ID">Деталі</a>*@
                         </td>
                     </tr>
                 }
@@ -103,14 +105,3 @@
         }
     </tbody>
 </table>
-
-<p>
-    <a asp-action="IndexPagging" asp-route-id="1"><h4>Вивести по сторінках</h4></a>
-</p>
-
-@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
-{
-    <p>
-        <a asp-action="Create"><h4>Додати нову пару</h4></a>
-    </p>
-}

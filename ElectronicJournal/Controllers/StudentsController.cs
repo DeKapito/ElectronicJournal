@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicJournal.Controllers
 {
-    public class StudentsController : Controller
+    public class StudentsController : Controller, IDataController
     {
         private readonly ElectronicJournalContext _context;
 
@@ -49,7 +49,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Students/Create
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public IActionResult Create()
         {
             return View();
@@ -57,13 +57,31 @@ namespace ElectronicJournal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Create([Bind("ID,Name,LastName, Father")] Student student)
         {
             if (ModelState.IsValid)
             {
                 student.GroupID = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
                 _context.Add(student);
+
+                var someStudent = await _context.Student.FirstOrDefaultAsync(m => m.GroupID == student.GroupID);
+                if (someStudent != null)
+                {
+                    var missings = _context.Missing.Where(m => m.StudentID == someStudent.ID).ToList();
+
+                    for (int i = 0; i < missings.Count; i++)
+                    {
+                        _context.Add(new Missing
+                        {
+                            StudentID = student.ID,
+                            LessonID = missings[i].LessonID,
+                            IsMissing = IsMissing.withoutReason
+                        });
+                    }
+                }
+
+                
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -72,7 +90,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Students/Edit/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,7 +108,7 @@ namespace ElectronicJournal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,LastName,Father,GroupID")] Student student)
         {
             if (id != student.ID)
@@ -122,7 +140,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Students/Delete/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,7 +161,7 @@ namespace ElectronicJournal.Controllers
         // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var student = await _context.Student.SingleOrDefaultAsync(m => m.ID == id);

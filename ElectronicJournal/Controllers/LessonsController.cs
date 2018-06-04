@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicJournal.Controllers
 {
-    public class LessonsController : Controller
+    public class LessonsController : Controller, IDataController
     {
         private readonly ElectronicJournalContext _context;
 
@@ -94,30 +94,35 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons/Create
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public IActionResult Create()
         {
-            var groupId = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
-            ViewData["SubjectID"] = new SelectList(_context.Subject.Where(m => m.GroupID == groupId), "ID", "SubjectName");
-            ViewBag.Students = _context.Student.Where(m => m.GroupID == groupId).OrderBy(m => m.LastName).ToList();
+            var groupId = _context.Users
+                                .First(m => m.UserName == User.Identity.Name)
+                                .GroupID;
+
+            ViewData["SubjectID"] = new SelectList(_context.Subject
+                                                            .Where(m => m.GroupID == groupId), "ID", "SubjectName");
+            ViewBag.Students = _context.Student
+                                        .Where(m => m.GroupID == groupId)
+                                        .OrderBy(m => m.LastName)
+                                        .ToList();
 
             return View();
         }
 
-        // POST: Lessons/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Create([Bind("ID,Date,Classroom,Type,SubjectID,NumberLesson,Missings,GroupID")] Lesson lesson)
         {
             if (ModelState.IsValid)
             { 
-                lesson.GroupID = _context.Users.First(m => m.UserName == User.Identity.Name).GroupID;
+                lesson.GroupID = _context.Users
+                                        .First(m => m.UserName == User.Identity.Name)
+                                        .GroupID;
                 _context.Add(lesson);
 
-                //////////////////////////////Протестити цей блок коду
                 var students = _context.Student.OrderBy(m => m.LastName).ToList();
 
                 List<Missing> missings = new List<Missing>(students.Count);
@@ -129,7 +134,6 @@ namespace ElectronicJournal.Controllers
                     missings[i].IsMissing = 0;
                     _context.Add(missings[i]);
                 }
-                ///////////////////////////////////////////////////////////
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -140,7 +144,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons/Edit/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -157,12 +161,9 @@ namespace ElectronicJournal.Controllers
             return View(lesson);
         }
 
-        // POST: Lessons/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Classroom,Type,SubjectID, NumberLesson, GroupID")] Lesson lesson)
         {
             if (id != lesson.ID)
@@ -195,7 +196,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Missings1/Create
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> AddMissings(int? id)
         {
             if (id == null)
@@ -226,12 +227,9 @@ namespace ElectronicJournal.Controllers
             return View(missings);
         }
 
-        //POST: Missings1/Create
-        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> AddMissings(List<Missing> missings, Lesson lesson)   //public async Task<IActionResult> AddMissings([Bind("ID,StudentID,IsMissing,LessonID")] Missing missing)
         {
             if (ModelState.IsValid)
@@ -260,7 +258,7 @@ namespace ElectronicJournal.Controllers
         }
 
         // GET: Lessons/Delete/5
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -282,7 +280,7 @@ namespace ElectronicJournal.Controllers
         // POST: Lessons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, GroupLeader")]
+        [Authorize(Roles = "GroupLeader")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var lesson = await _context.Lesson.SingleOrDefaultAsync(m => m.ID == id);

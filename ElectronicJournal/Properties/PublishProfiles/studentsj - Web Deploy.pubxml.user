@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAxhdpwIM70EiXqZFnFVTv1wAAAAACAAAAAAAQZgAAAAEAACAAAADrSGQpZWMNXBMnVDxQF/vJ5CzkrhFwI9u0eEkAXjU3lgAAAAAOgAAAAAIAACAAAACGDNUENQoi56qGiagPjd36By0K4xFYmswKFh/pjEtkhIAAAACb36rUV+OJ18l7du1kugfNKIk17WXbVHAdf4cC8s7TEY37JRQOm+oN7uh24k7jPB8tRZluzGVDOYigMeyvLeZGWBuqNstztMpsiKSGvZH3AR4YaFKYqJs7mZP9b09k+4ZKb+sNYmSTGKwd9hHfcA6eIxDpXJs85q0bXPo3O2s/vEAAAAAEQ8sRHZcAsdBHxlNXx6ryyRbxaPhcRK7KJghRKfFbqzzNBMhMTQ6aXfU+y16Azm3j4nGt88SEwpNmCTy44TLe</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="ElectronicJournalContext">
+      <Value>workstation id=ElectronicJournalContext.mssql.somee.com;packet size=4096;user id=Demon_z_SQLLogin_1;pwd=l4pn78xsyd;data source=ElectronicJournalContext.mssql.somee.com;persist security info=False;initial catalog=ElectronicJournalContext</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

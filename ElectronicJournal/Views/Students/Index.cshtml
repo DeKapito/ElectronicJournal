@@ -26,43 +26,40 @@
         </tr>
     </thead>
     <tbody>
-@{
-    int i = 0;
-}
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <p>@(++i)</p>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Father)
-            </td>
-            <td>     
-                <a asp-action="Details" class="btn btn-default" asp-route-id="@item.ID">Деталі</a>
-                @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
-                { 
-                    <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.ID">Редагувати</a>
-                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.ID">Видалити</a>
-                }
-                @*@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
-                { 
-                    <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
-                    <a asp-action="Delete" asp-route-id="@item.ID">Видалити  |</a>
-                }
-                <a asp-action="Details" asp-route-id="@item.ID">Деталі</a>*@
-            </td>
-        </tr>
-}
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <p>@(++i)</p>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Father)
+                </td>
+                <td>
+                    <a asp-action="Details" class="btn btn-default" asp-route-id="@item.ID">Деталі</a>
+                    @if (User.IsInRole("GroupLeader"))
+                    {
+                        <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.ID">Редагувати</a>
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.ID">Видалити</a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
-<p>
-    <a asp-action="Create"><h4>Додати нового студента</h4></a>
-</p>
-
+@if (User.IsInRole("GroupLeader"))
+{
+    <p>
+        <a asp-action="Create"><h4>Додати нового студента</h4></a>
+    </p>
+}

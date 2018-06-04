@@ -3,6 +3,10 @@
     ViewData["Title"] = "Реєстрація";
 }
 
+@{
+    var culture = new System.Globalization.CultureInfo("uk-UA");
+}
+
 <h2>Реєстрація нового користувача</h2>
 
 <form asp-controller="Account" asp-action="Register">

@@ -8,7 +8,7 @@ namespace ElectronicJournal.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Email обов'язковий")]
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 

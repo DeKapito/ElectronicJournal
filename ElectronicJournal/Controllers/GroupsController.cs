@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicJournal.Controllers
 {
-    public class GroupsController : Controller
+    public class GroupsController : Controller, IDataController
     {
         private readonly ElectronicJournalContext _context;
 
@@ -129,6 +129,31 @@ namespace ElectronicJournal.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var group = await _context.Group.SingleOrDefaultAsync(m => m.ID == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.GroupID == id);
+
+            if(user != null)
+            {
+                return View("NotDelete");
+            }
+            var lessons = _context.Lesson.Where(m => m.GroupID == id);
+            var students = _context.Student.Where(m => m.GroupID == id);
+            var subjects = _context.Subject.Where(m => m.GroupID == id);
+
+            foreach (var lesson in lessons)
+            {
+                _context.Remove(lesson);
+            }
+
+            foreach (var student in students)
+            {
+                _context.Remove(student);
+            }
+
+            foreach (var subject in subjects)
+            {
+                _context.Remove(subject);
+            }
+
             _context.Group.Remove(group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

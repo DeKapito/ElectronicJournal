@@ -48,11 +48,11 @@ namespace ElectronicJournal.Controllers
                                         GroupID = model.GroupID};
 
                 var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "Student");    /////////
-                result = await _userManager.UpdateAsync(user);   /////////////
+                //result = await _userManager.UpdateAsync(user);   /////////////   
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Student");    /////////
                     var codeForConfirm = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account",
                                                     new { userId = user.Id, code = codeForConfirm }, //////////////////////
@@ -73,6 +73,7 @@ namespace ElectronicJournal.Controllers
                     }
                 }
             }
+            ViewBag.groups = _context.Group.ToList();
             return View(model);
         }
 

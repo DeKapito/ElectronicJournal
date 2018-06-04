@@ -27,7 +27,14 @@ namespace ElectronicJournal
             services.AddDbContext<ElectronicJournalContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ElectronicJournalContext")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+
+            })
                 .AddEntityFrameworkStores<ElectronicJournalContext>()
                 .AddDefaultTokenProviders();
 

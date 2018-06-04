@@ -13,39 +13,27 @@
         position: relative;
     }
 
-    /*.tableContainer {
-        width: 1100px;
-        overflow: auto;
-    }*/
-
     table {
         table-layout: fixed;
         border-collapse: collapse;
     }
 
-    table td.vertical {
-        height: 300px;
-        white-space: nowrap;
-        /*width:30px;*/
-    }
+        table td.vertical {
+            height: 300px;
+            white-space: nowrap;
+        }
 
     .vertical-text {
-        transform:
-        translate(10px, 145px)
-        rotate(-90deg);
+        transform: translate(10px, 145px) rotate(-90deg);
         width: 30px;
     }
 
     p.vertical {
         padding: 5px 10px;
     }
-
 </style>
 
 <h1>Тиждень @ViewBag.numberOfWeek</h1>
-@*<form>
-    <button asp-action="Export" asp-route-id="@ViewBag.id">Export</button>
-</form>*@
 
 @{
     var culture = new System.Globalization.CultureInfo("uk-UA");
@@ -53,7 +41,6 @@
     List<DateTime> dates = new List<DateTime>();
 }
 
-@*<div class="tableContainer">*@
 <table class="table-bordered table-hover table-striped table-condensed">
     <thead>
         <tr>
@@ -76,10 +63,7 @@
             }
             <td width="120px" colspan="4">Пропущено занять за тиждень(год.)</td>
         </tr>
-        <tr>
-            @*<td width="60px" colspan="2">За тиждень</td>*@
-            @*<td width="60px" colspan="2">від поч. семестру</td>*@
-        </tr>
+        <tr></tr>
     </thead>
     <tbody>
         <tr>
@@ -95,8 +79,6 @@
             }
             <td rowspan="2" width="60px">усього</td>
             <td rowspan="2" width="60px">з непов. причин</td>
-            @*<td rowspan="2">усього</td>
-            <td rowspan="2">з непов. причин</td>*@
         </tr>
         <tr>
             <td>Дата</td>
@@ -107,7 +89,7 @@
                 </td>
             }
         </tr>
-        @{ 
+        @{
             int counterMissingsOfWeekWithoutReason = 0;
             int counterMissingsOfWeek = 0;
             Lesson lastLesson = null;
@@ -131,22 +113,22 @@
                     {
                         var missing = item.Missings.Where(s => s.StudentID == Model.Students[i].ID).FirstOrDefault();
                         <td colspan="2" align="center">
-                        @switch (missing.IsMissing)
-                        {
-                            case IsMissing.present:
-                                break;
+                            @switch (missing.IsMissing)
+                            {
+                                case IsMissing.present:
+                                    break;
 
-                            case IsMissing.withoutReason:
-                                counterMissingsOfWeekWithoutReason++;
-                                counterMissingsOfWeek++;
-                                <i>нп</i>
-                                break;
+                                case IsMissing.withoutReason:
+                                    counterMissingsOfWeekWithoutReason++;
+                                    counterMissingsOfWeek++;
+                                    <i>нп</i>
+                                    break;
 
-                            case IsMissing.illness:
-                                counterMissingsOfWeek++;
-                                <i>хв</i>
-                                break;
-                        }
+                                case IsMissing.illness:
+                                    counterMissingsOfWeek++;
+                                    <i>хв</i>
+                                    break;
+                            }
                         </td>
                         lastLesson = item;
                     }
@@ -157,4 +139,26 @@
         }
     </tbody>
 </table>
-    @*</div>*@
+
+<br />
+<div class="formButtons" align="center">
+    <h5>Перейти до тижня</h5>
+
+    <form asp-action="IndexPagging">
+        @if (ViewBag.numberOfWeek > 1)
+        {
+            <button class="btn btn-default" asp-route-id="@(ViewBag.numberOfWeek - 1)">Попередній</button>
+        }
+
+
+        @for (int i = 0; i < ViewBag.numWeeks; i++)
+        {
+            <button class="btn btn-default" asp-route-id="@(i + 1)">@(i + 1)</button>
+        }
+
+        @if (ViewBag.numberOfWeek < ViewBag.numWeeks)
+        {
+            <button class="btn btn-default" asp-route-id="@(ViewBag.numberOfWeek + 1)">Наступний</button>
+        }
+    </form>
+</div>

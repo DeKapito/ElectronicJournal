@@ -14,7 +14,13 @@
     }
 </style>
 
-<h1>Тиждень @ViewBag.numberOfWeek</h1>
+<h1>Тиждень @ViewBag.numberOfWeek</h1><br />
+
+<a asp-action="Index"><h4>Вивести всі пари на одній сторінці</h4></a>
+@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+{
+    <a asp-action="Create"><h4>Додати нову пару</h4></a>
+}
 
 <table class="table">
     <tbody>
@@ -77,7 +83,7 @@
                             <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
                             <a asp-action="AddMissings" asp-route-id="@item.ID">Відмітити відсутніх  |</a>
                             <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
-                        }              
+                        }
                     </td>
                 </tr>
             }
@@ -86,11 +92,6 @@
 </table>
 
 <br /><br />
-<a asp-action="Index"><h4>Вивести всі пари на одній сторінці</h4></a>
-@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
-{
-    <a asp-action="Create"><h4>Додати нову пару</h4></a>
-}
 
 <br />
 <div class="formButtons" align="center">
